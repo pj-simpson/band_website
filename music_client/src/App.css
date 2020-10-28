@@ -1,0 +1,60 @@
+.news-image  {
+    height: auto !important;
+    max-width: 100% !important;
+    border-radius: unset !important;
+    margin-left: 1em;
+
+}
+
+
+.news-card {
+    padding-bottom: 30px ;
+    padding-top: 30px;
+    border-radius: unset !important;
+
+}
+
+.nav-item {
+    margin-left: 9px;
+}
+
+.logout-button {
+    position: right;
+}
+
+.item-button {
+    float: right;
+    margin-right: 10px;
+    margin-top: 5px;
+
+}
+
+.press-release {
+    font-size:0.75rem;
+}
+
+.link-icons {
+    margin-top: 10px;
+}
+
+.link-icons a {
+    margin-right: 3px;
+}
+
+main {
+    background-color: black;
+    color: white;
+}
+
+.connect-table-row {
+    padding: 1em;
+}
+
+body {
+    background-color: black !important;
+}
+
+.home-image {
+    max-height: 70vh;
+    max-width: 70vw;
+}

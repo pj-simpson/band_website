@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  web:
+    build: ./music_service
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./music_service:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./music_service/.env.dev
+    depends_on:
+      - db
+
+  client:
+    build:
+      context: ./music_client
+    command: npm start .env.local
+    ports:
+      - 3000:3000
+    stdin_open: true
+    volumes:
+      - ./music_client:/usr/src/app
+
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=music_service
+      - POSTGRES_PASSWORD=music_service
+      - POSTGRES_DB=music_service
+
+volumes:
+  postgres_data:
