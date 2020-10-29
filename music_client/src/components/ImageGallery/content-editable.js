@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactContentEditable from 'react-contenteditable';
+import React from "react";
+import ReactContentEditable from "react-contenteditable";
 
 export default function ContentEditable({
   onChange,

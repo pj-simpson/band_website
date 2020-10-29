@@ -1,51 +1,46 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import React, { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Col, Form, FormGroup, Input, Label, Alert, Button } from "reactstrap";
+import { Alert, Button, Col } from "reactstrap";
 import axios from "axios";
+import { getAccessToken } from "../../services/AuthService";
+import { Redirect } from "react-router-dom";
 
-function LogIn({ loggerIn }) {
+function ConnectUpdate() {
   const { register, handleSubmit } = useForm();
   const [submitted, setSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errors, captureErrors] = useState("");
 
-  const onSubmit = (data, event) => {
+  function onSubmit(data, event) {
     event.preventDefault();
-    console.log(data);
     const formData = new FormData();
 
-    formData.append("username", data.username);
-    formData.append("password", data.password);
+    formData.append("category", data.category);
+    formData.append("link", data.link);
+    formData.append("link_title", data.linktitle);
 
     axios
-      .post("dj-rest-auth/login/", formData, {
+      .post("connections/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + getAccessToken(),
         },
       })
-      .then(function (response) {
-        window.localStorage.setItem(
-          "jwt-auth",
-          JSON.stringify(response.data.access_token)
-        );
-        loggerIn();
-        setSubmitted(true);
-      })
+      .then(setSubmitted(true))
       .catch((err) => {
         if (err.response) {
           captureErrors(err.response.statusText);
         }
         setIsError(true);
       });
-  };
+  }
 
   if (submitted) {
     return (
       <Redirect
         push
         to={{
-          pathname: "/",
+          pathname: "/connect",
         }}
       />
     );
@@ -53,8 +48,6 @@ function LogIn({ loggerIn }) {
 
   return (
     <Fragment>
-      <h2>Log In</h2>
-
       <Col sm="7" md={{ size: 6, offset: 3 }}>
         {isError && (
           <Alert color="danger">
@@ -64,23 +57,33 @@ function LogIn({ loggerIn }) {
         )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div class="form-group">
-            <label for="username">Username:</label>
+            <label>Link:</label>
+            <input type="url" ref={register} name="link" class="form-control" />
+          </div>
+
+          <div class="form-group">
+            <label>Link title:</label>
             <input
               type="text"
               ref={register}
-              name="username"
+              name="linktitle"
               class="form-control"
             />
           </div>
 
-          <div class="form-group">
-            <label for="password">Password:</label>
-            <input
-              type="password"
+          <div className="form-group">
+            <label>Category:</label>
+            <select
+              multiple
               ref={register}
-              name="password"
-              class="form-control"
-            />
+              name="category"
+              className="form-control"
+            >
+              <option value="Platform">Platform</option>
+              <option value="Mix">Mix</option>
+              <option value="Press">Press</option>
+              <option value="Project">Project</option>
+            </select>
           </div>
 
           <Button color="primary" type="submit">
@@ -92,4 +95,4 @@ function LogIn({ loggerIn }) {
   );
 }
 
-export default LogIn;
+export default ConnectUpdate;

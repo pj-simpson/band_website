@@ -1,8 +1,7 @@
-import React from 'react';
+import React from "react";
 
-
-function RouterError(){
-    return <h2>Page not found</h2>
+function RouterError() {
+  return <h2>Page not found</h2>;
 }
 
 export default RouterError;

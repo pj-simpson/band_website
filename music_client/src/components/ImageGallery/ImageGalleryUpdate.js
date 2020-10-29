@@ -1,44 +1,39 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import React, { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Col, Form, FormGroup, Input, Label, Alert, Button } from "reactstrap";
+import { Alert, Button, Col } from "reactstrap";
 import axios from "axios";
+import { getAccessToken } from "../../services/AuthService";
+import { Redirect } from "react-router-dom";
 
-function LogIn({ loggerIn }) {
+function ImageGalleryUpdate() {
   const { register, handleSubmit } = useForm();
   const [submitted, setSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errors, captureErrors] = useState("");
 
-  const onSubmit = (data, event) => {
+  function onSubmit(data, event) {
     event.preventDefault();
-    console.log(data);
     const formData = new FormData();
 
-    formData.append("username", data.username);
-    formData.append("password", data.password);
+    formData.append("src", data["image"][0]);
+    formData.append("height", data.height);
+    formData.append("width", data.width);
 
     axios
-      .post("dj-rest-auth/login/", formData, {
+      .post("images/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + getAccessToken(),
         },
       })
-      .then(function (response) {
-        window.localStorage.setItem(
-          "jwt-auth",
-          JSON.stringify(response.data.access_token)
-        );
-        loggerIn();
-        setSubmitted(true);
-      })
+      .then(setSubmitted(true))
       .catch((err) => {
         if (err.response) {
           captureErrors(err.response.statusText);
         }
         setIsError(true);
       });
-  };
+  }
 
   if (submitted) {
     return (
@@ -53,8 +48,6 @@ function LogIn({ loggerIn }) {
 
   return (
     <Fragment>
-      <h2>Log In</h2>
-
       <Col sm="7" md={{ size: 6, offset: 3 }}>
         {isError && (
           <Alert color="danger">
@@ -63,23 +56,36 @@ function LogIn({ loggerIn }) {
           </Alert>
         )}
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div class="form-group">
-            <label for="username">Username:</label>
+          <div className="form-group">
+            <label>Image:</label>
+
             <input
-              type="text"
+              type="file"
               ref={register}
-              name="username"
-              class="form-control"
+              name="image"
+              className="form-control-file"
             />
           </div>
 
-          <div class="form-group">
-            <label for="password">Password:</label>
+          <div className="form-group">
+            <label>Height:</label>
+
             <input
-              type="password"
+              type="number"
               ref={register}
-              name="password"
-              class="form-control"
+              name="height"
+              className="form-control"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Width:</label>
+
+            <input
+              type="number"
+              ref={register}
+              name="width"
+              className="form-control"
             />
           </div>
 
@@ -92,4 +98,4 @@ function LogIn({ loggerIn }) {
   );
 }
 
-export default LogIn;
+export default ImageGalleryUpdate;
