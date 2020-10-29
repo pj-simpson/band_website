@@ -5,15 +5,19 @@ import {
 import {Image} from "react-bootstrap";
 import axios from 'axios';
 import '../App.css';
+import ContentEditable from './content-editable';
+
+
 
 import {getAccessToken} from "../services/AuthService";
 
 
 function ImageGalleryEdit({isLoggedIn}) {
-
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState([]);
     const [isUpdating,setisUpdating] = useState(false);
+    const [isError,setIsError] = useState(false);
+    const [errors,captureErrors] = useState('');
 
     function listRemover(id) {
         const newList = data.filter((item) => item.id !== id);
@@ -39,7 +43,7 @@ function ImageGalleryEdit({isLoggedIn}) {
 
 
       function onDelete(item) {
-
+            updater();
           const config = {
                    headers: {
                       Authorization: "Bearer " + getAccessToken(),
@@ -51,6 +55,40 @@ function ImageGalleryEdit({isLoggedIn}) {
             .then(listRemover(item_id));
       }
 
+
+
+  const handleChange = evt => {
+
+      const formData = new FormData();
+        const item_id = evt.currentTarget.id;
+
+      if (evt.currentTarget.className === "width-editable") {
+            if (evt.target.value === ""){
+                return
+            } else {
+                formData.append('width', evt.target.value)
+            }
+
+
+      }
+      if (evt.currentTarget.className === "height-editable") {
+          if (evt.target.value === ""){
+                return
+            } else {
+              formData.append('height', evt.target.value)
+          }
+
+      }
+
+
+      axios.patch(`images/${item_id}/`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+            Authorization: "Bearer " + getAccessToken(),
+        }}
+      )
+
+};
 
 
 
@@ -70,13 +108,14 @@ function ImageGalleryEdit({isLoggedIn}) {
                             <th>Thumb</th>
                             <th>Width</th>
                             <th>Height</th>
-                            <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                       </thead>
                       <tbody>
 
                       {data.map(item => (
+
+
                         <tr key={item.id}>
                             <td>
                                 <Col xs='6' md='2'>
@@ -85,33 +124,34 @@ function ImageGalleryEdit({isLoggedIn}) {
                                     </a>
                                 </Col>
                             </td>
+
+
                           <td>
-                              <input
-                                type="number"
-                                // ref={register}
-                                name="width"
-                                className="form-control"
-                                placeholder={item.width}
-                            /></td>
-                          <td>
-                              <input
-                                type="number"
-                                // ref={register}
-                                name="height"
-                                className="form-control"
-                                placeholder={item.height}
-                            /></td>
-                          <td><Button
-                                color='info'
-                                className="item-button"
-                                size="sm"
-                                onClick={() => updater()}>Edit</Button></td>
-                          <td><Button
+                              <ContentEditable
+                                  html={item.width.toString()}
+                                  onChange={handleChange}
+                                  id={item.id}
+                                  className='width-editable'
+                                />
+                            </td>
+                            <td>
+                              <ContentEditable
+                                  html={item.height.toString()}
+                                  onChange={handleChange}
+                                  id={item.id}
+                                  className='height-editable'
+                                  />
+                            </td>
+
+                        <td>
+                          <Button
                                 color='danger'
                                 className="item-button"
                                 onClick={() => onDelete(item)}
                                 size="sm"
-                              >Delete</Button></td>
+                              >Delete</Button>
+                        </td>
+
 
 
 
