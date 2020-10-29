@@ -28,18 +28,6 @@ function Home() {
     getHomeImage();
   }, [isLoading, isUpdating]);
 
-  function onDelete(item) {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + getAccessToken(),
-      },
-    };
-    const item_id = item;
-    axios
-      .delete(`deletelatesthomeimage/${item_id}/`, config)
-      .then(function (response) {});
-    listRemover(item_id);
-  }
 
   return (
     <div>

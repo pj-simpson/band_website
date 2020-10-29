@@ -15,4 +15,6 @@ urlpatterns = [
     path("latesthomeimage/", LatestHomeImage.as_view(), name="latest-home-image"),
     path("images/<int:pk>/", ImageGalleryDetail.as_view(), name="image-gallery-detail"),
     path("images/", ImageGalleryList.as_view(), name="image-gallery"),
+    path("biog/", BiogList.as_view(), name="biographies"),
+    path("latestbiog/", LatestBiog.as_view(), name="latest-biog"),
 ]

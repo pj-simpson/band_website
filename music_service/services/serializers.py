@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import NewsItem, Project, Release, Connect,HomeImage, Image
+from .models import NewsItem, Project, Release, Connect,HomeImage, Image, Biog
 
 
 class NewsItemSerializer(serializers.ModelSerializer):
@@ -53,4 +53,10 @@ class ImageGallerySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image
+        fields = '__all__'
+
+class BiographySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Biog
         fields = '__all__'

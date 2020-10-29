@@ -4,8 +4,8 @@ from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework import filters
 
 
-from .models import NewsItem,Project, Release, Connect,HomeImage, Image
-from .serializers import NewsItemSerializer, ProjectSerializer, ReleaseSerializer, ConnectSerializer,HomeImageSerializer, ImageGallerySerializer
+from .models import NewsItem,Project, Release, Connect,HomeImage, Image, Biog
+from .serializers import NewsItemSerializer, ProjectSerializer, ReleaseSerializer, ConnectSerializer,HomeImageSerializer, ImageGallerySerializer, BiographySerializer
 
 
 class NewsItemList(generics.ListCreateAPIView):
@@ -82,3 +82,16 @@ class ImageGalleryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Image.objects.all()
     serializer_class = ImageGallerySerializer
     parser_classes = (JSONParser, MultiPartParser)
+
+class BiogList(generics.ListCreateAPIView):
+    queryset = Biog.objects.all()
+    serializer_class = BiographySerializer
+    parser_classes = (JSONParser, MultiPartParser)
+    pagination_class = None
+
+class LatestBiog(RetrieveAPIView):
+    queryset = Biog.objects.all()
+    serializer_class = BiographySerializer
+
+    def get_object(self, *args, **kwargs):
+        return self.queryset.latest('created_date')

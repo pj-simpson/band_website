@@ -17,6 +17,8 @@ import HomePageUpdate from "./components/Home/HomePageUpdate";
 import Images from "./components/ImageGallery/ImageGallery";
 import ImageGalleryUpdate from "./components/ImageGallery/ImageGalleryUpdate";
 import ImageGalleryEdit from "./components/ImageGallery/ImageGalleryEdit";
+import Biog from "./components/Biog/Biog";
+import {BiogEditor} from "./components/Biog/BiogEditor";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(() => {
@@ -40,7 +42,7 @@ function App() {
         <Col xs="12">
           <Switch>
             <Route path="/" isLoggedIn={isLoggedIn} component={Home} exact />
-
+            <Route path="/biog" isLoggedIn={isLoggedIn} component={Biog} exact />
             <Route
               path="/news"
               render={(props) => <News {...props} isLoggedIn={isLoggedIn} />}
@@ -85,6 +87,12 @@ function App() {
               path="/imagesupdate"
               render={() =>
                 isLoggedIn ? <ImageGalleryUpdate /> : <Redirect to="/" />
+              }
+            />
+            <Route
+              path="/biogupdate"
+              render={() =>
+                isLoggedIn ? <BiogEditor /> : <Redirect to="/" />
               }
             />
             <Route

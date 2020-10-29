@@ -77,6 +77,10 @@ class Image(models.Model):
     width = models.IntegerField()
     height = models.IntegerField()
 
+class Biog(models.Model):
+    biography = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True)
+
 
 
 
