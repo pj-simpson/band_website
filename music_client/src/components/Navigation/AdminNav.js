@@ -41,6 +41,9 @@ function AdminNavigation() {
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
+          <NavItem>
+          <NavLink href="/biogupdate">Biog Update</NavLink>
+        </NavItem>
       </Nav>
     </div>
   );

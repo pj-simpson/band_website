@@ -5,12 +5,15 @@ import draftToHtml from 'draftjs-to-html';
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import axios from "axios";
 import {getAccessToken} from "../../services/AuthService";
+import {Button, Col} from "reactstrap";
+import {Redirect} from "react-router-dom";
 
 
 export class BiogEditor extends Component {
 
   state = {
     editorState: EditorState.createEmpty(),
+    submitted:false
   }
 
   onEditorStateChange = (editorState) => {
@@ -19,39 +22,52 @@ export class BiogEditor extends Component {
     });
   };
 
-   onSubmit = () => {
+   onSubmit = (editorState) => {
 
-    const biog = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    const biog = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
+
 
     axios
-      .post("homeimage/", formData, {
+      .post("biog/", {'biography':biog}, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: "Bearer " + getAccessToken(),
         },
       })
-      .then(setSubmitted(true))
-      .catch((err) => {
-        if (err.response) {
-          captureErrors(err.response.statusText);
-        }
-        setIsError(true);
-      });
+        .then(this.setState({submitted:true}))
   }
 
-  //
 
-  render() {
+
+
+
+  render()  {
     const { editorState } = this.state;
+    if (this.state.submitted) {
+        return (<Redirect
+                push
+                to={{
+                  pathname: "/biog",
+                }}
+              />)
+    } else {
     return (
       <div>
-        <Editor
-          editorState={editorState}
-          wrapperClassName="demo-wrapper"
-          editorClassName="demo-editor"
-          onEditorStateChange={this.onEditorStateChange}
-        />
+       <Col xs="10">
+            <Editor
+              editorState={editorState}
+              wrapperClassName="demo-wrapper"
+              editorClassName="demo-editor"
+              onEditorStateChange={this.onEditorStateChange}
+              toolbar={{ options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'remove', 'history'],}}
+            />
+            <Button
+              color="primary"
+              className="item-button"
+              onClick={() => this.onSubmit()}
+            >Submit</Button>
+       </Col>
       </div>
-    );
+    )};
   }
 }
