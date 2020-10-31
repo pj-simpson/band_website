@@ -31,7 +31,7 @@ function Biog() {
         </Spinner>
       ) : (
         <div>
-          <Col xs="auto" md={{ offset: 4 }}>
+          <Col xs="auto">
              {renderHTML(data.biography)}
           </Col>
         </div>

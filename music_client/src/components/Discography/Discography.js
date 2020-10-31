@@ -144,6 +144,9 @@ function Discography({ isLoggedIn }) {
 
                           <p>
                             <ul>
+                                <li>
+                                Release Date: <Moment format="DD/MM/YYYY">{item.release_date && item.release_date}</Moment>
+                              </li>
                               <li>
                                 Mastered By: {item.mastered && item.mastered}
                               </li>

@@ -7,9 +7,10 @@ import {
   CardSubtitle,
   CardFooter,
   Col,
-  CardHeader,
+  CardTitle,
   Spinner,
   Button,
+    CardHeader
 } from "reactstrap";
 
 import { InfiniteScroll } from "react-simple-infinite-scroll";
@@ -96,25 +97,24 @@ export class News extends React.Component {
                     className="news-card justify-content-around"
                     key={item.id}
                   >
+                      <Moment format="DD/MM/YYYY">
+                            {item.created_date}
+                          </Moment>
                     <Card
                       className="news-card"
                       body
                       inverse
-                      style={{ backgroundColor: "black", borderColor: "#333" }}
+                      style={{ backgroundColor: "black"}}
                     >
-                      <CardHeader style={{ backgroundColor: "black" }}>
+                    <CardImg className="news-image" src={item.image} />
+                    <CardBody>
+                      <CardTitle style={{ backgroundColor: "black" }}>
                         <h2>{item.headline}</h2>
-                      </CardHeader>
+                      </CardTitle>
                       <CardSubtitle>
                         <a href={item.link}>{item.link_title}</a>
                       </CardSubtitle>
-                      <CardBody>
                         <CardText>
-                          <CardImg className="news-image" src={item.image} />
-
-                          <Moment format="DD/MM/YYYY">
-                            {item.created_date}
-                          </Moment>
 
                           <p className="press-release">{item.body}</p>
                         </CardText>
