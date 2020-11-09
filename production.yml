@@ -1,0 +1,58 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=music_service
+      - POSTGRES_PASSWORD=music_service
+      - POSTGRES_DB=music_service
+
+  web:
+    build: ./music_service
+    container_name: web
+    command: gunicorn music_service.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./music_service:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./music_service/.env.prod
+    depends_on:
+      - db
+
+  client:
+    build:
+      context: ./music_client
+    container_name: client
+    command: npm start .env.local
+    ports:
+      - 3000:3000
+    stdin_open: true
+    volumes:
+      - ./music_client:/usr/src/app
+    depends_on:
+      - web
+
+
+
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nginx
+    depends_on:
+      - web
+      - client
+    ports:
+      - 8080:80
+    restart: always
+    volumes:
+      - media:/usr/src/app/media
+      - static:/usr/src/app/static
+
+volumes:
+  postgres_data:
+  media:
+  static:

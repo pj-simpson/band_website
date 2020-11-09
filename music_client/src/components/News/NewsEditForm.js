@@ -20,7 +20,7 @@ function NewsEditForm({ item, updater, toggle }) {
     if (data.body !== "") {
       formData.append("body", data.body);
     }
-    if (data.link !== []) {
+    if (data.link !== "") {
       formData.append("link", data.link);
     }
     if (data.linktitle !== "") {
@@ -85,12 +85,13 @@ function NewsEditForm({ item, updater, toggle }) {
             ref={register}
             name="headline"
             className="form-control"
+            placeholder={item.headline}
           />
         </div>
 
         <div className="form-group">
           <label htmlFor="body">Body:</label>
-          <textarea ref={register} name="body" className="form-control" />
+          <textarea ref={register} name="body" className="form-control" placeholder={item.body} />
         </div>
 
         <div className="form-group">
@@ -100,6 +101,7 @@ function NewsEditForm({ item, updater, toggle }) {
             ref={register}
             name="link"
             className="form-control"
+            placeholder={item.link}
           />
         </div>
 
@@ -110,6 +112,7 @@ function NewsEditForm({ item, updater, toggle }) {
             ref={register}
             name="linktitle"
             className="form-control"
+            placeholder={item.link_title}
           />
         </div>
 
@@ -135,6 +138,7 @@ function NewsEditForm({ item, updater, toggle }) {
         <Button color="primary" type="submit">
           Submit
         </Button>
+          {' '}
         <Button color="secondary" onClick={toggle}>
           Cancel
         </Button>

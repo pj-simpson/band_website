@@ -13,6 +13,7 @@ function DiscogEditForm({ item, toggle, updater }) {
     event.preventDefault();
     const formData = new FormData();
     const item_id = item.id;
+    const new_format = data.format.toString().split(',')
 
     if (data.title !== "") {
       formData.append("title", data.title);
@@ -20,8 +21,8 @@ function DiscogEditForm({ item, toggle, updater }) {
     if (data.label !== "") {
       formData.append("label", data.label);
     }
-    if (data.format !== []) {
-      formData.append("format", data.format);
+    if (new_format[0] !== "") {
+      formData.append("format[]", new_format);
     }
     if (data.bandcamp_link !== "") {
       formData.append("bandcamp_link", data.bandcamp_link);
@@ -245,6 +246,7 @@ function DiscogEditForm({ item, toggle, updater }) {
         <Button color="primary" type="submit">
           Submit
         </Button>
+          {' '}
         <Button color="secondary" onClick={toggle}>
           Cancel
         </Button>
