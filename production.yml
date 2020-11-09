@@ -27,7 +27,9 @@ services:
     build:
       context: ./music_client
     container_name: client
-    command: npm start .env.local
+    environment:
+      - REACT_APP_API_URL=http://elsmusic.site/api/
+    command: npm start
     ports:
       - 3000:3000
     stdin_open: true
