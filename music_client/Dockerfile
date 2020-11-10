@@ -10,3 +10,4 @@ COPY package-lock.json /usr/src/app/package-lock.json
 RUN npm install --production
 
 COPY . /usr/src/app
+CMD [ "npm", "run", "build" ]
