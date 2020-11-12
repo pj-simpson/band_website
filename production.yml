@@ -46,18 +46,22 @@ services:
   nginx:
     build:
       context: ./nginx
-    container_name: nginx
+    container_name: nginx_cerbot
     depends_on:
       - web
       - client
     ports:
-      - 80:80
-    restart: always
+      - 80:80/tcp
+      - 443:443/tcp
+    environment:
+      CERTBOT_EMAIL: peter_joseph_simpson@hotmail.com
+    restart: unless-stopped
     volumes:
-      - media:/usr/src/app/media
-      - static:/usr/src/app/static
+      - ./conf.d:/etc/nginx/user.conf.d:ro
+      - letsencrypt:/etc/letsencrypt
 
 volumes:
   postgres_data:
   media:
   static:
+  letsencrypt:

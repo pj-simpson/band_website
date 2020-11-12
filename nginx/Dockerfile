@@ -1,4 +1,4 @@
-FROM nginx:1.17.6-alpine
+FROM staticfloat/nginx-certbot
 
 RUN rm /etc/nginx/conf.d/default.conf
 
