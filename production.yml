@@ -26,10 +26,8 @@ services:
   client:
     build:
       context: ./music_client
-    dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.prod
     container_name: client
-    environment:
-      - REACT_APP_API_URL=http://elsmusic.site/api/
     command: >
       sh -c "npm install -g serve &&
               serve -s build -l 3000"
@@ -43,7 +41,8 @@ services:
 
 
 
-  nginx:
+
+nginx:
     build:
       context: ./nginx
     container_name: nginx_cerbot
@@ -59,6 +58,7 @@ services:
     volumes:
       - ./conf.d:/etc/nginx/user.conf.d:ro
       - letsencrypt:/etc/letsencrypt
+
 
 volumes:
   postgres_data:
