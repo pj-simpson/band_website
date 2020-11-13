@@ -23,6 +23,7 @@ services:
     depends_on:
       - db
 
+
   client:
     build:
       context: ./music_client
@@ -42,7 +43,8 @@ services:
 
 
 
-nginx:
+
+  nginx:
     build:
       context: ./nginx
     container_name: nginx_cerbot
@@ -58,6 +60,7 @@ nginx:
     volumes:
       - ./conf.d:/etc/nginx/user.conf.d:ro
       - letsencrypt:/etc/letsencrypt
+
 
 
 volumes:
