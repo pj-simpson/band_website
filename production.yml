@@ -13,7 +13,11 @@ services:
   web:
     build: ./music_service
     container_name: web
-    command: gunicorn music_service.wsgi:application --bind 0.0.0.0:8000
+    command: >
+      sh -c
+       "gunicorn music_service.wsgi:application --bind 0.0.0.0:8000 &&
+         python manage.py makemigrations
+         python manage.py migrate"
     volumes:
       - ./music_service:/usr/src/app/
     ports:
@@ -27,11 +31,12 @@ services:
   client:
     build:
       context: ./music_client
-      dockerfile: Dockerfile.prod
     container_name: client
     command: >
-      sh -c "npm install -g serve &&
-              serve -s build -l 3000"
+      sh -c "cd .. &&
+             ENV REACT_APP_API_URL=https://elsmusic.site/api/ npm run build &&
+             npm install -g serve &&
+             serve -s build -l 3000"
     ports:
       - 3000:3000
     stdin_open: true
