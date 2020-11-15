@@ -33,9 +33,7 @@ services:
       context: ./music_client
     container_name: client
     command: >
-      sh -c "cd .. &&
-             ENV npm run build app/.env.production &&
-             npm install -g serve &&
+      sh -c "npm install -g serve &&
              serve -s build -l 3000"
     ports:
       - 3000:3000
