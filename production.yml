@@ -6,9 +6,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=music_service
-      - POSTGRES_PASSWORD=music_service
-      - POSTGRES_DB=music_service
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
 
   web:
     build: ./music_service
@@ -34,7 +34,7 @@ services:
     container_name: client
     command: >
       sh -c "cd .. &&
-             ENV REACT_APP_API_URL=https://elsmusic.site/api/ npm run build &&
+             ENV npm run build app/.env.production &&
              npm install -g serve &&
              serve -s build -l 3000"
     ports:
