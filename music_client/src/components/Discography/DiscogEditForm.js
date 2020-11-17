@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Button, Col } from "reactstrap";
+import { Alert, Button } from "reactstrap";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { getAccessToken } from "../../services/AuthService";
@@ -48,6 +48,9 @@ function DiscogEditForm({ item, toggle, updater }) {
     if (data.design !== "") {
       formData.append("design", data.design);
     }
+    if (data.release_date !== "") {
+      formData.append("release_date", data.release_date);
+    }
     if (data["image"][0]) {
       formData.append("image", data["image"][0]);
     }
@@ -58,7 +61,7 @@ function DiscogEditForm({ item, toggle, updater }) {
       fieldcounter += 1;
     }
 
-    if (fieldcounter < 13) {
+    if (fieldcounter < 14) {
       axios
         .patch(`releases/${item_id}/`, formData, {
           headers: {
@@ -231,6 +234,17 @@ function DiscogEditForm({ item, toggle, updater }) {
             placeholder={item.design}
           />
         </div>
+
+          <div className="form-group">
+            <label>Release Date:</label>
+
+            <input
+              type="date"
+              ref={register}
+              name="release_date"
+              className="form-control-file"
+            />
+          </div>
 
         <div className="form-group">
           <label>Image:</label>

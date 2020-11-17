@@ -1,12 +1,12 @@
-from django.contrib.auth import get_user_model
 from rest_framework import status
-from rest_framework.authtoken.models import Token
 from rest_framework.request import Request
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 
+
 from .image_test_util import get_image_file
-from ..models import NewsItem, Project
+from .jwt_auth_test_util import jwt_api_client
+from ..models import NewsItem, Project,Biog,Connect,HomeImage,Image,Release
 from ..serializers import NewsItemSerializer
 
 factory = APIRequestFactory()
@@ -14,6 +14,9 @@ factory = APIRequestFactory()
 
 class NewsItemsTests(APITestCase):
     def setUp(self):
+        self.client = jwt_api_client()
+
+        self.non_auth_client = APIClient()
 
         self.project = Project.objects.create(name='Band name', description='Short description of the project')
 
@@ -44,10 +47,11 @@ class NewsItemsTests(APITestCase):
             newsitems, many=True, context={"request": Request(request)}
         )
 
-        self.assertEqual(response.data, serializer.data)
+
+        self.assertEqual(response.data['results'], serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data[0]["headline"], "Lorem ipsum dolor")
-        self.assertEqual(response.data[1]["headline"], "Vivamus at libero")
+        self.assertEqual(response.data['results'][0]["headline"], "Lorem ipsum dolor")
+        self.assertEqual(response.data['results'][1]["headline"], "Vivamus at libero")
 
     def test_get_single_news_item(self):
 
@@ -61,37 +65,6 @@ class NewsItemsTests(APITestCase):
         response = self.client.get(reverse("news-item-detail", kwargs={"pk": 45}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-
-class NewsItemsRequireAuthTests(APITestCase):
-    def setUp(self):
-
-        self.project = Project.objects.create(name='Band name', description='Short description of the project')
-
-        self.newsitem1 = NewsItem.objects.create(
-            headline="Lorem ipsum dolor",
-            body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id ligula vitae purus t",
-            link="https://link.com",
-            link_title="link title",
-            image=get_image_file(),
-            project=self.project
-        )
-
-        self.newsitem2 = NewsItem.objects.create(
-            headline="Vivamus at libero",
-            body="Vivamus at libero vel metus semper venenatis eget facilisis metus",
-            link="https://link2.com",
-            image=get_image_file(),
-            project=self.project
-        )
-
-        User = get_user_model()
-        user = User.objects.create_user(
-            username="Peter", email="peter@example.com", password="testpass123"
-        )
-
-        self.token = Token.objects.create(user=user)
-        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
-        self.non_auth_client = APIClient()
 
     def test_update_single_news_item(self):
 
@@ -201,3 +174,152 @@ class NewsItemsRequireAuthTests(APITestCase):
 
         response = self.non_auth_client.post(reverse("news-items"), data=payload)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+class BiogItemsTests(APITestCase):
+    def setUp(self):
+        self.client = jwt_api_client()
+
+        self.non_auth_client = APIClient()
+
+
+        self.biog1 = Biog.objects.create(
+            biography='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla bibendum tincidunt nisi ut consequat. Nam vehicula turpis sit amet blandit accumsan. Mauris lacinia,'
+
+        )
+
+        self.biog2 = Biog.objects.create(
+            biography='Integer hendrerit, nisi eget facilisis rutrum, justo neque efficitur enim, eu tempor augue mauris ac lacus. Vivamus in rutrum lectu'
+        )
+
+
+class ConnectItemsTests(APITestCase):
+    def setUp(self):
+        self.client = jwt_api_client()
+
+        self.non_auth_client = APIClient()
+
+        self.connect1 = Connect.objects.create(
+            link='http://fakelink.com',
+            link_title ="link no 1",
+            category='Platform',
+        )
+
+        self.connect2 = Connect.objects.create(
+            link='http://fakelink2.com',
+            link_title="link no 2",
+            category='Press',
+        )
+
+
+
+class HomeImageItemsTests(APITestCase):
+    def setUp(self):
+        self.client = jwt_api_client()
+
+        self.non_auth_client = APIClient()
+
+        self.connect1 = HomeImage.objects.create(
+            image=get_image_file()
+        )
+
+        self.connect2 = HomeImage.objects.create(
+            image=get_image_file(name="test2.png", ext="png", size=(40, 40))
+        )
+
+
+class ProjectsItemsTests(APITestCase):
+    def setUp(self):
+        self.client = jwt_api_client()
+
+        self.non_auth_client = APIClient()
+
+        self.connect1 = Project.objects.create(
+            name='Band name', description='Short description of the project'
+        )
+
+        self.connect2 = Project.objects.create(
+            name='Second Band name', description='Sed in arcu at libero rutrum auctor'
+        )
+
+
+
+class ReleasesItemsTests(APITestCase):
+    def setUp(self):
+        self.client = jwt_api_client()
+
+        self.non_auth_client = APIClient()
+
+        self.project = Project.objects.create(name='Band name', description='Short description of the project')
+
+        self.release1 = Release.objects.create(
+            title= "title 1",
+            project = self.project,
+            label = 'a label',
+            format = ['DL','CS'],
+            mastered = 'mastering engineer',
+            design = 'graphic designer',
+            recorded = 'recording engineer',
+            bandcamp_link = 'http://bandcampfake.com/fakelink',
+            soundcloud_link = 'http://soundcloud.com/fakelink',
+            spotify_link = 'http://open.spotify.com/fakelink',
+            buy_link = 'http://itunes.com/fakelink',
+            press_release = 'Maecenas feugiat massa eros, faucibus suscipit lacus sodales non. Vestibulum eget nunc sit amet leo dictum egestas',
+            image = get_image_file(),
+            release_date = '01/12/2020',
+
+        )
+
+        self.release2 = Release.objects.create(
+            title="title 2",
+            project=self.project,
+            label='a label2',
+            format=['CD'],
+            mastered='2mastering engineer',
+            design='2graphic designer',
+            recorded='2recording engineer',
+            bandcamp_link='http://bandcampfake.com/fakelink2',
+            soundcloud_link='http://soundcloud.com/fakelink2',
+            spotify_link='http://open.spotify.com/fakelink2',
+            buy_link='http://itunes.com/fakelink2',
+            press_release='Donec tincidunt massa id orci posuere, sed ultricies purus accumsan. Quisque ac convallis mi, sodales laoreet quam. Cras finibus massa at blandit sodales',
+            image=get_image_file(),
+            release_date='01/12/1997',
+
+        )
+
+        self.release3 = Release.objects.create(
+            title="title 3",
+            project=self.project,
+            label='a label',
+            format=['CD','DL'],
+            mastered='3mastering engineer',
+            design='3graphic designer',
+            recorded='3recording engineer',
+            bandcamp_link='http://bandcampfake.com/fakelink3',
+            soundcloud_link='http://soundcloud.com/fakelink3',
+            spotify_link='http://open.spotify.com/fakelink3',
+            buy_link='http://itunes.com/fakelink3',
+            press_release='ed viverra ex ex, commodo commodo magna tempor nec. Nullam lectus risus',
+            image=get_image_file(),
+            release_date='08/04/2019',
+
+        )
+
+        self.release3 = Release.objects.create(
+            title="title 4",
+            project=self.project,
+            label='a label',
+            format=['CD', 'DL','LP'],
+            mastered='4mastering engineer',
+            design='4graphic designer',
+            recorded='4recording engineer',
+            bandcamp_link='http://bandcampfake.com/fakelink4',
+            soundcloud_link='http://soundcloud.com/fakelink4',
+            spotify_link='http://open.spotify.com/fakelink4',
+            buy_link='http://itunes.com/fakelink4',
+            press_release='ed viverra ex ex, commodo commodo magna tempor nec. Nullam lectus risus',
+            image=get_image_file(),
+            release_date='19/07/2018',
+
+        )
+

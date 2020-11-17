@@ -27,6 +27,7 @@ function ReleaseUpdate() {
     formData.append("recorded", data.recorded);
     formData.append("mastered", data.mastered);
     formData.append("design", data.design);
+    formData.append("release_date", data.release_date);
     formData.append("image", data["image"][0]);
 
     axios
@@ -190,6 +191,17 @@ function ReleaseUpdate() {
               type="file"
               ref={register}
               name="image"
+              className="form-control-file"
+            />
+          </div>
+
+            <div className="form-group">
+            <label>Release Date:</label>
+
+            <input
+              type="date"
+              ref={register}
+              name="release_date"
               className="form-control-file"
             />
           </div>

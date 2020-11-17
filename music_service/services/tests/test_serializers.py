@@ -1,12 +1,9 @@
-from rest_framework import serializers
+from rest_framework.exceptions import ErrorDetail
 from rest_framework.test import APITestCase
 
 from .image_test_util import get_image_file
-from ..models import NewsItem, Project, Release
-from ..serializers import NewsItemSerializer, ProjectSerializer, ReleaseSerializer
-
-
-
+from ..models import Project
+from ..serializers import NewsItemSerializer, ProjectSerializer, ReleaseSerializer,BiographySerializer, ConnectSerializer, HomeImageSerializer, ImageGallerySerializer
 
 class NewsItemsSerializerTests(APITestCase):
     def setUp(self):
@@ -41,7 +38,6 @@ class NewsItemsSerializerTests(APITestCase):
             {"body": ["This field is required."], "link": ["This field is required."]},
         )
 
-
 class ProjectSerializerTests(APITestCase):
 
     def setUp(self):
@@ -72,7 +68,6 @@ class ProjectSerializerTests(APITestCase):
             {"name": ["This field is required."]},
         )
 
-
 class ReleaseSerializerTests(APITestCase):
     def setUp(self):
 
@@ -91,7 +86,8 @@ class ReleaseSerializerTests(APITestCase):
             "spotify_link":"https://open.spotify.com/album/76TYeTqP0loNE3rS8Axi2c?si=Jaag7POgR2mYxDVoypgmxw",
             "buy_link":"https://e-l-s.bandcamp.com/album/winters-split-pt2",
             "press_release":"In condimentum condimentum congue. In hac habitasse platea dictumst. Fusce sodales justo tellus, ac porta massa imperdiet eu. Donec vitae enim ipsum. Nullam molestie nec sapien in faucibus. Cras interdum ultrices turpis, et tincidunt neque hendrerit ac. Vivamus dignissim, ante eget molestie hendrerit, erat libero lobortis est, nec hendrerit erat turpis et quam. Nullam porta velit non feugiat tempor. Morbi volutpat bibendum tortor, sit amet malesuada diam. Vivamus dapibus a ex at lobortis.",
-
+            "image":get_image_file(),
+            "release_date":"2019-12-01",
         }
 
         self.invaliddata = {
@@ -120,4 +116,124 @@ class ReleaseSerializerTests(APITestCase):
         self.assertEquals(
             serializer.errors,
             {"title": ["This field is required."]},
+        )
+
+class BiogSerializerTests(APITestCase):
+
+    def setUp(self):
+
+        self.validdata = {
+            "biography": "Blah Blah Blah Blah",
+        }
+
+        self.invaliddata = {}
+
+    def test_valid_biog_item_serializer(self):
+        serializer = BiographySerializer(data=self.validdata)
+
+        self.assertTrue(serializer.is_valid())
+        self.assertEquals(serializer.errors, {})
+
+    def test_invalid_biog_item_serializer(self):
+        serializer = BiographySerializer(data=self.invaliddata)
+
+        self.assertFalse(serializer.is_valid())
+        self.assertEquals(serializer.validated_data, {})
+        self.assertEquals(serializer.data, self.invaliddata)
+        self.assertEquals(
+            serializer.errors,
+            {'biography': [ErrorDetail(string='This field is required.', code='required')]},
+        )
+
+class ConnectSerializerTests(APITestCase):
+
+    def setUp(self):
+
+        self.validdata = {
+            "link":"http://example.com",
+            "link_title":"link_title",
+            "category":'Platform',
+        }
+
+        self.invaliddata ={
+            "link_title":"link title",
+            "category":"Not a category",
+        }
+
+    def test_valid_biog_item_serializer(self):
+        serializer = ConnectSerializer(data=self.validdata)
+
+        self.assertTrue(serializer.is_valid())
+        self.assertEquals(serializer.errors, {})
+
+    def test_invalid_biog_item_serializer(self):
+        serializer = ConnectSerializer(data=self.invaliddata)
+
+        self.assertFalse(serializer.is_valid())
+        self.assertEquals(serializer.validated_data, {})
+        self.assertEquals(serializer.data, self.invaliddata)
+        self.assertEquals(
+            serializer.errors.__len__(),2
+        )
+
+class HomeImageSerializerTests(APITestCase):
+
+    def setUp(self):
+
+        self.validdata = {
+            "image": get_image_file()
+        }
+
+        self.invaliddata = {
+            "image": "blah blah blah"
+        }
+
+    def test_valid_homeimage_item_serializer(self):
+        serializer = HomeImageSerializer(data=self.validdata)
+
+        self.assertTrue(serializer.is_valid())
+        self.assertEquals(serializer.errors, {})
+
+    def test_invalid_homeimage_item_serializer(self):
+        serializer = HomeImageSerializer(data=self.invaliddata)
+
+        self.assertFalse(serializer.is_valid())
+        self.assertEquals(serializer.validated_data, {})
+        self.assertEquals(serializer.data, self.invaliddata)
+        self.assertEquals(
+            serializer.errors.__len__(),1
+        )
+
+class ImageGallerySerializerTests(APITestCase):
+
+    def setUp(self):
+
+        self.validdata = {
+            "src": get_image_file(),
+            "width":1,
+            "height":1,
+
+        }
+
+        self.invaliddata = {
+            "src": get_image_file(),
+            "width":"1.5",
+            "height":"1",
+        }
+
+    def test_valid_image_item_serializer(self):
+        serializer = ImageGallerySerializer(data=self.validdata)
+
+        self.assertTrue(serializer.is_valid())
+        self.assertEquals(serializer.errors, {})
+
+    def test_invalid_image_item_serializer(self):
+        serializer = ImageGallerySerializer(data=self.invaliddata)
+
+        self.assertFalse(serializer.is_valid())
+        self.assertEquals(serializer.validated_data, {})
+        self.assertEquals(serializer.data, self.invaliddata)
+        self.assertEquals(
+            serializer.errors,
+            {'width': [ErrorDetail(string='A valid integer is required.', code='invalid')]},
         )

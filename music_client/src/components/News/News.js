@@ -10,7 +10,6 @@ import {
   CardTitle,
   Spinner,
   Button,
-    CardHeader
 } from "reactstrap";
 
 import { InfiniteScroll } from "react-simple-infinite-scroll";
@@ -75,15 +74,11 @@ export class News extends React.Component {
     this.listRemover(item_id);
   };
 
-  updater = () => {
-    // this.setState({isUpdating:!status})
-    console.log("this fires");
-  };
 
   render() {
     return (
       <div>
-        <Col xs="4" md={{ offset: 4 }} className="justify-content-around">
+        <Col xs="8" md={{ offset: 2 }} className="justify-content-around">
           <InfiniteScroll
             throttle={100}
             threshold={300}
@@ -93,8 +88,9 @@ export class News extends React.Component {
           >
             {this.state.items.length > 0
               ? this.state.items.map((item) => (
+
                   <div
-                    className="news-card justify-content-around"
+                    className="news-card justify-content-around col-md"
                     key={item.id}
                   >
                       <Moment format="DD/MM/YYYY">

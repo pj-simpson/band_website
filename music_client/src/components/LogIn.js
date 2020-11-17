@@ -1,7 +1,7 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Col, Form, FormGroup, Input, Label, Alert, Button } from "reactstrap";
+import { Col,  Alert, Button } from "reactstrap";
 import axios from "axios";
 
 function LogIn({ loggerIn }) {
@@ -12,7 +12,6 @@ function LogIn({ loggerIn }) {
 
   const onSubmit = (data, event) => {
     event.preventDefault();
-    console.log(data);
     const formData = new FormData();
 
     formData.append("username", data.username);

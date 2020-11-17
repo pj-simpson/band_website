@@ -11,8 +11,6 @@ function ImageGalleryEdit({ isLoggedIn }) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isUpdating, setisUpdating] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [errors, captureErrors] = useState("");
 
   function listRemover(id) {
     const newList = data.filter((item) => item.id !== id);

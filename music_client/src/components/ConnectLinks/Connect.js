@@ -15,10 +15,6 @@ function Connect({ isLoggedIn }) {
     setData(newList);
   }
 
-  const updater = () => {
-    setisUpdating(!isUpdating);
-  };
-
   const getNews = () => {
     axios.get("connections/").then((response) => {
       setData(response.data);
@@ -59,7 +55,7 @@ function Connect({ isLoggedIn }) {
               </thead>
               <tbody>
                 {data
-                  .filter((item) => item.category == "Platform")
+                  .filter((item) => item.category === "Platform")
                   .map((item) => (
                     <tr key={item.id}>
                       <td>
@@ -90,7 +86,7 @@ function Connect({ isLoggedIn }) {
               </thead>
               <tbody>
                 {data
-                  .filter((item) => item.category == "Mix")
+                  .filter((item) => item.category === "Mix")
                   .map((item) => (
                     <tr key={item.id}>
                       <td>
@@ -121,7 +117,7 @@ function Connect({ isLoggedIn }) {
               </thead>
               <tbody>
                 {data
-                  .filter((item) => item.category == "Press")
+                  .filter((item) => item.category === "Press")
                   .map((item) => (
                     <tr key={item.id}>
                       <td>
@@ -152,7 +148,7 @@ function Connect({ isLoggedIn }) {
               </thead>
               <tbody>
                 {data
-                  .filter((item) => item.category == "Project")
+                  .filter((item) => item.category === "Project")
                   .map((item) => (
                     <tr key={item.id}>
                       <td>

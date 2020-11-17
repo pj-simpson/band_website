@@ -4,7 +4,7 @@ import "./index.css";
 import axios from "axios";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
 axios.defaults.xsrfCookieName = "csrftoken";

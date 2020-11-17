@@ -73,7 +73,6 @@ function Discography({ isLoggedIn }) {
 
     const item_id = item.id;
     axios.delete(`releases/${item_id}/`, config).then(function (response) {
-      console.log("sucess?");
     });
 
     listRemover(item_id);
@@ -89,11 +88,7 @@ function Discography({ isLoggedIn }) {
         Object.keys(rows).map((row) => {
           return (
             <Row sm="4" className="justify-content-around" key={row}>
-              {console.log(
-                data.filter(function (eachElem, index) {
-                  console.log(rows[row].includes(index.toString()));
-                })
-              )}
+
 
               {data
                 .filter(function (eachElem, index) {

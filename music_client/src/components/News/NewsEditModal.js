@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody } from "reactstrap";
 import NewsEditForm from "./NewsEditForm";
 
-function NewsEditModal({ item, handleUpdate, isUpdating }) {
+function NewsEditModal({ item, handleUpdate }) {
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);

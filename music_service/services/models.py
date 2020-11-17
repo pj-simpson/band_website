@@ -47,7 +47,7 @@ class Release(models.Model):
     buy_link = models.CharField(null=True,max_length=255)
     press_release = models.TextField(null=True)
     image = models.ImageField(upload_to="release_images/", blank=True)
-    release_date = models.DateTimeField(null=True)
+    release_date = models.DateField(null=True)
 
     def __str__(self):
         return f"{self.title}"
