@@ -1,6 +1,21 @@
 from django.urls import path
 
-from .views import *
+from .views import (
+    NewsItemDetail,
+    NewsItemList,
+    ProjectDetail,
+    ProjectList,
+    ReleaseDetail,
+    ReleaseList,
+    ConnectDetail,
+    ConnectList,
+    HomeImageList,
+    LatestHomeImage,
+    ImageGalleryDetail,
+    ImageGalleryList,
+    BiogList,
+    LatestBiog,
+)
 
 urlpatterns = [
     path("news/<int:pk>/", NewsItemDetail.as_view(), name="news-item-detail"),
@@ -10,7 +25,7 @@ urlpatterns = [
     path("releases/<int:pk>/", ReleaseDetail.as_view(), name="release-detail"),
     path("releases/", ReleaseList.as_view(), name="releases"),
     path("connections/<int:pk>/", ConnectDetail.as_view(), name="connections-detail"),
-    path("connections/", ConnnectList.as_view(), name="connections"),
+    path("connections/", ConnectList.as_view(), name="connections"),
     path("homeimage/", HomeImageList.as_view(), name="home-image"),
     path("latesthomeimage/", LatestHomeImage.as_view(), name="latest-home-image"),
     path("images/<int:pk>/", ImageGalleryDetail.as_view(), name="image-gallery-detail"),

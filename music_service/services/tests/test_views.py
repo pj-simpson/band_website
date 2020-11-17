@@ -6,8 +6,15 @@ from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 
 from .image_test_util import get_image_file
 from .jwt_auth_test_util import jwt_api_client
-from ..models import NewsItem, Project,Biog,Connect,HomeImage,Image,Release
-from ..serializers import NewsItemSerializer, BiographySerializer, ConnectSerializer, HomeImageSerializer, ProjectSerializer, ReleaseSerializer, ImageGallerySerializer
+from ..models import NewsItem, Project, Biog, Connect, HomeImage, Image, Release
+from ..serializers import (
+    BiographySerializer,
+    ConnectSerializer,
+    HomeImageSerializer,
+    ProjectSerializer,
+    ReleaseSerializer,
+    ImageGallerySerializer,
+)
 
 factory = APIRequestFactory()
 
@@ -18,7 +25,9 @@ class NewsItemsTests(APITestCase):
 
         self.non_auth_client = APIClient()
 
-        self.project = Project.objects.create(name='Band name', description='Short description of the project')
+        self.project = Project.objects.create(
+            name="Band name", description="Short description of the project"
+        )
 
         self.newsitem1 = NewsItem.objects.create(
             headline="Lorem ipsum dolor",
@@ -26,7 +35,7 @@ class NewsItemsTests(APITestCase):
             link="https://link.com",
             link_title="link title",
             image=get_image_file(),
-            project=self.project
+            project=self.project,
         )
 
         self.newsitem2 = NewsItem.objects.create(
@@ -34,24 +43,51 @@ class NewsItemsTests(APITestCase):
             body="Vivamus at libero vel metus semper venenatis eget facilisis metus",
             link="https://link2.com",
             image=get_image_file(),
-            project=self.project
+            project=self.project,
         )
 
-    def test_get_all_news_items(self):
+        self.newsitem3 = NewsItem.objects.create(
+            headline="Class aptent",
+            body="Class aptent taciti sociosqu ad litora torquent",
+            link="https://link3.com",
+            image=get_image_file(),
+            project=self.project,
+        )
+
+        self.newsitem4 = NewsItem.objects.create(
+            headline="Morbi finibus",
+            body="Morbi finibus imperdiet sapien",
+            link="https://link4.com",
+            image=get_image_file(),
+            project=self.project,
+        )
+
+    def test_get_all_news_items_and_pagination(self):
 
         response = self.client.get(reverse("news-items"))
-        request = factory.get(reverse("news-items"))
 
-        newsitems = NewsItem.objects.all()
-        serializer = NewsItemSerializer(
-            newsitems, many=True, context={"request": Request(request)}
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["results"][0]["headline"], "Lorem ipsum dolor")
+        self.assertEqual(response.data["results"][1]["headline"], "Vivamus at libero")
+        self.assertEqual(response.data["count"], 4)
+        self.assertIsNone(response.data["previous"])
+
+        response2 = self.client.get(response.data["next"])
+
+        self.assertEqual(response2.status_code, status.HTTP_200_OK)
+        self.assertIsNone(response2.data["next"])
+        self.assertEqual(response2.data["results"][0]["headline"], "Morbi finibus")
+
+        response3 = self.client.get("/api/news/?page=2")
+        self.assertEqual(
+            response2.data["results"][0]["id"], response3.data["results"][0]["id"]
         )
 
+    def test_get_all_news_items_ordering(self):
 
-        self.assertEqual(response.data['results'], serializer.data)
+        response = self.client.get("/api/news/?ordering=-created_date")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['results'][0]["headline"], "Lorem ipsum dolor")
-        self.assertEqual(response.data['results'][1]["headline"], "Vivamus at libero")
+        self.assertEqual(response.data["results"][0]["headline"], "Morbi finibus")
 
     def test_get_single_news_item(self):
 
@@ -65,16 +101,15 @@ class NewsItemsTests(APITestCase):
         response = self.client.get(reverse("news-item-detail", kwargs={"pk": 45}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-
     def test_update_single_news_item(self):
 
         payload = {
             "headline": "Nulla nec quam",
             "body": "Nulla nec quam at orci finibus faucibus vel quis dui",
             "link": "https://crazylink.com",
-            "link_title":"crazy link",
+            "link_title": "crazy link",
             "image": get_image_file(),
-            "project":self.project.pk
+            "project": self.project.pk,
         }
 
         response = self.client.put(
@@ -88,7 +123,7 @@ class NewsItemsTests(APITestCase):
         )
         self.assertEqual(response.data["link"], "https://crazylink.com")
         self.assertEqual(response.data["link_title"], "crazy link")
-        self.assertEqual(response.data["project"],self.project.pk)
+        self.assertEqual(response.data["project"], self.project.pk)
 
     def test_update_single_news_item_no_auth(self):
 
@@ -97,7 +132,7 @@ class NewsItemsTests(APITestCase):
             "body": "Nulla nec quam at orci finibus faucibus vel quis dui",
             "link": "https://crazylink.com",
             "image": get_image_file(),
-            "project": self.project.pk
+            "project": self.project.pk,
         }
 
         response = self.non_auth_client.put(
@@ -113,7 +148,6 @@ class NewsItemsTests(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["headline"], "Patchy")
-
 
     def test_partial_update_single_news_item_no_auth(self):
         payload = {"headline": "Patchy"}
@@ -147,9 +181,9 @@ class NewsItemsTests(APITestCase):
             "headline": "Ut rhoncus purus",
             "body": "Ut rhoncus purus vel lacus vulputate porttitor",
             "link": "https://fakelink.com",
-            "link_title":"fake link",
+            "link_title": "fake link",
             "image": get_image_file(),
-            "project": self.project.pk
+            "project": self.project.pk,
         }
 
         response = self.client.post(reverse("news-items"), data=payload)
@@ -161,7 +195,6 @@ class NewsItemsTests(APITestCase):
         self.assertEqual(response.data["link"], "https://fakelink.com")
         self.assertEqual(response.data["link_title"], "fake link")
         self.assertEqual(response.data["project"], self.project.pk)
-
 
     def test_post_new_news_item_no_auth(self):
 
@@ -175,20 +208,20 @@ class NewsItemsTests(APITestCase):
         response = self.non_auth_client.post(reverse("news-items"), data=payload)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+
 class BiogItemsTests(APITestCase):
     def setUp(self):
         self.client = jwt_api_client()
 
         self.non_auth_client = APIClient()
 
-
         self.biog1 = Biog.objects.create(
-            biography='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla bibendum tincidunt nisi ut consequat. Nam vehicula turpis sit amet blandit accumsan. Mauris lacinia,'
-
+            biography="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla bibendum tincidunt nisi ut"
         )
 
         self.biog2 = Biog.objects.create(
-            biography='Integer hendrerit, nisi eget facilisis rutrum, justo neque efficitur enim, eu tempor augue mauris ac lacus. Vivamus in rutrum lectu'
+            biography="Integer hendrerit, nisi eget facilisis rutrum, justo neque efficitur enim, eu tempor augue"
+
         )
 
     def test_get_all_biog_items(self):
@@ -201,11 +234,16 @@ class BiogItemsTests(APITestCase):
             biogitems, many=True, context={"request": Request(request)}
         )
 
-
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data[0]["biography"], "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla bibendum tincidunt nisi ut consequat. Nam vehicula turpis sit amet blandit accumsan. Mauris lacinia,")
-        self.assertEqual(response.data[1]["biography"], "Integer hendrerit, nisi eget facilisis rutrum, justo neque efficitur enim, eu tempor augue mauris ac lacus. Vivamus in rutrum lectu")
+        self.assertEqual(
+            response.data[0]["biography"],
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla bibendum tincidunt nisi ut",
+        )
+        self.assertEqual(
+            response.data[1]["biography"],
+            "Integer hendrerit, nisi eget facilisis rutrum, justo neque efficitur enim, eu tempor augue",
+        )
 
     def test_post_new_biog_item(self):
 
@@ -216,7 +254,6 @@ class BiogItemsTests(APITestCase):
         response = self.client.post(reverse("biographies"), data=payload)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data["biography"], "Ut rhoncus purus")
-
 
     def test_post_new_biog_item_no_auth(self):
 
@@ -233,8 +270,7 @@ class BiogItemsTests(APITestCase):
         request = factory.get(reverse("latest-biog"))
 
         biogitems = Biog.objects.all()
-        biogitems = biogitems.latest('created_date')
-
+        biogitems = biogitems.latest("created_date")
 
         serializer = BiographySerializer(
             biogitems, context={"request": Request(request)}
@@ -242,7 +278,11 @@ class BiogItemsTests(APITestCase):
 
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["biography"], "Integer hendrerit, nisi eget facilisis rutrum, justo neque efficitur enim, eu tempor augue mauris ac lacus. Vivamus in rutrum lectu")
+        self.assertEqual(
+            response.data["biography"],
+            "Integer hendrerit, nisi eget facilisis rutrum, justo neque efficitur enim, eu tempor augue",
+        )
+
 
 class ConnectItemsTests(APITestCase):
     def setUp(self):
@@ -251,15 +291,11 @@ class ConnectItemsTests(APITestCase):
         self.non_auth_client = APIClient()
 
         self.connect1 = Connect.objects.create(
-            link='http://fakelink.com',
-            link_title ="link no 1",
-            category='Platform',
+            link="http://fakelink.com", link_title="link no 1", category="Platform",
         )
 
         self.connect2 = Connect.objects.create(
-            link='http://fakelink2.com',
-            link_title="link no 2",
-            category='Press',
+            link="http://fakelink2.com", link_title="link no 2", category="Press",
         )
 
     def test_get_all_connect_items(self):
@@ -271,7 +307,6 @@ class ConnectItemsTests(APITestCase):
         serializer = ConnectSerializer(
             connectlinks, many=True, context={"request": Request(request)}
         )
-
 
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -290,14 +325,12 @@ class ConnectItemsTests(APITestCase):
         response = self.client.get(reverse("connections-detail", kwargs={"pk": 69}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-
     def test_update_single_connect_item(self):
 
         payload = {
             "link": "https://crazylink.com",
-            "link_title":"crazy link",
-            "category": 'Press',
-
+            "link_title": "crazy link",
+            "category": "Press",
         }
 
         response = self.client.put(
@@ -305,20 +338,18 @@ class ConnectItemsTests(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
-            response.data["category"],
-            "Press",
+            response.data["category"], "Press",
         )
         self.assertEqual(response.data["link"], "https://crazylink.com")
         self.assertEqual(response.data["link_title"], "crazy link")
-        self.assertEqual(response.data["category"],"Press")
+        self.assertEqual(response.data["category"], "Press")
 
     def test_update_single_news_item_no_auth(self):
 
         payload = {
             "link": "https://evencrazierlink.com",
             "link_title": "crazy link 2",
-            "category": 'Platform',
-
+            "category": "Platform",
         }
 
         response = self.non_auth_client.put(
@@ -334,7 +365,6 @@ class ConnectItemsTests(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["link_title"], "Patching Connection")
-
 
     def test_partial_update_single_connect_item_no_auth(self):
         payload = {"link_title": "Patching Connection Fail"}
@@ -366,8 +396,8 @@ class ConnectItemsTests(APITestCase):
 
         payload = {
             "link": "https://anotherfunlink.com",
-            "link_title":"fun link",
-            "category": 'Platform',
+            "link_title": "fun link",
+            "category": "Platform",
         }
 
         response = self.client.post(reverse("connections"), data=payload)
@@ -376,16 +406,16 @@ class ConnectItemsTests(APITestCase):
         self.assertEqual(response.data["link_title"], "fun link")
         self.assertEqual(response.data["category"], "Platform")
 
-
     def test_post_new_news_item_no_auth(self):
         payload = {
             "link": "https://failinglink.com",
             "link_title": "fail link",
-            "category": 'Press',
+            "category": "Press",
         }
 
         response = self.non_auth_client.post(reverse("news-items"), data=payload)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
 
 class HomeImageItemsTests(APITestCase):
     def setUp(self):
@@ -393,9 +423,7 @@ class HomeImageItemsTests(APITestCase):
 
         self.non_auth_client = APIClient()
 
-        self.connect1 = HomeImage.objects.create(
-            image=get_image_file()
-        )
+        self.connect1 = HomeImage.objects.create(image=get_image_file())
 
         self.connect2 = HomeImage.objects.create(
             image=get_image_file(name="test2.png", ext="png", size=(40, 40))
@@ -414,7 +442,6 @@ class HomeImageItemsTests(APITestCase):
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-
     def test_post_new_homeimage_item(self):
 
         payload = {
@@ -423,7 +450,6 @@ class HomeImageItemsTests(APITestCase):
 
         response = self.client.post(reverse("home-image"), data=payload)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
 
     def test_post_new_homeimage_item_no_auth(self):
 
@@ -440,7 +466,7 @@ class HomeImageItemsTests(APITestCase):
         request = factory.get(reverse("latest-home-image"))
 
         homeimages = HomeImage.objects.all()
-        homeimages = homeimages.latest('created_date')
+        homeimages = homeimages.latest("created_date")
 
         serializer = HomeImageSerializer(
             homeimages, context={"request": Request(request)}
@@ -448,9 +474,9 @@ class HomeImageItemsTests(APITestCase):
 
         self.assertEqual(response.data, serializer.data)
 
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(response.data["image"])
+
 
 class ProjectsItemsTests(APITestCase):
     def setUp(self):
@@ -459,11 +485,11 @@ class ProjectsItemsTests(APITestCase):
         self.non_auth_client = APIClient()
 
         self.project1 = Project.objects.create(
-            name='Band name', description='Short description of the project'
+            name="Band name", description="Short description of the project"
         )
 
         self.project2 = Project.objects.create(
-            name='Second Band name', description='Sed in arcu at libero rutrum auctor'
+            name="Second Band name", description="Sed in arcu at libero rutrum auctor"
         )
 
     def test_get_all_project_items(self):
@@ -475,7 +501,6 @@ class ProjectsItemsTests(APITestCase):
         serializer = ProjectSerializer(
             projects, many=True, context={"request": Request(request)}
         )
-
 
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -494,7 +519,6 @@ class ProjectsItemsTests(APITestCase):
         response = self.client.get(reverse("project-detail", kwargs={"pk": 11}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-
     def test_update_single_project(self):
 
         payload = {
@@ -509,8 +533,7 @@ class ProjectsItemsTests(APITestCase):
         self.assertEqual(response.data["name"], "Band name 3")
         self.assertEqual(response.data["description"], "Third active project")
 
-
-    def test_update_single_project(self):
+    def test_update_single_project_no_auth(self):
 
         payload = {
             "name": "Band name 4",
@@ -530,7 +553,6 @@ class ProjectsItemsTests(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["name"], "Patch Project")
-
 
     def test_partial_update_single_project_no_auth(self):
         payload = {"name": "Patch Fail"}
@@ -568,9 +590,9 @@ class ProjectsItemsTests(APITestCase):
         response = self.client.post(reverse("projects"), data=payload)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data["name"], "Latest Project")
-        self.assertEqual(response.data["description"], "The most recent project I am involved in")
-
-
+        self.assertEqual(
+            response.data["description"], "The most recent project I am involved in"
+        )
 
     def test_post_new_project_no_auth(self):
 
@@ -582,84 +604,83 @@ class ProjectsItemsTests(APITestCase):
         response = self.non_auth_client.post(reverse("projects"), data=payload)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+
 class ReleasesItemsTests(APITestCase):
     def setUp(self):
         self.client = jwt_api_client()
 
         self.non_auth_client = APIClient()
 
-        self.project = Project.objects.create(name='Band name', description='Short description of the project')
+        self.project = Project.objects.create(
+            name="Band name", description="Short description of the project"
+        )
 
         self.release1 = Release.objects.create(
-            title= "title 1",
-            project = self.project,
-            label = 'a label',
-            format = ['DL','CS'],
-            mastered = 'mastering engineer',
-            design = 'graphic designer',
-            recorded = 'recording engineer',
-            bandcamp_link = 'http://bandcampfake.com/fakelink',
-            soundcloud_link = 'http://soundcloud.com/fakelink',
-            spotify_link = 'http://open.spotify.com/fakelink',
-            buy_link = 'http://itunes.com/fakelink',
-            press_release = 'Maecenas feugiat massa eros, faucibus suscipit lacus sodales non. Vestibulum eget nunc sit amet leo dictum egestas',
-            image = get_image_file(),
-            release_date = '2020-08-01',
-
+            title="title 1",
+            project=self.project,
+            label="a label",
+            format=["DL", "CS"],
+            mastered="mastering engineer",
+            design="graphic designer",
+            recorded="recording engineer",
+            bandcamp_link="http://bandcampfake.com/fakelink",
+            soundcloud_link="http://soundcloud.com/fakelink",
+            spotify_link="http://open.spotify.com/fakelink",
+            buy_link="http://itunes.com/fakelink",
+            press_release="Maecenas feugiat massa eros, faucibus suscipit lacus sodales non. Vestibulum eget",
+            image=get_image_file(),
+            release_date="2020-08-01",
         )
 
         self.release2 = Release.objects.create(
             title="title 2",
             project=self.project,
-            label='a label2',
-            format=['CD'],
-            mastered='2mastering engineer',
-            design='2graphic designer',
-            recorded='2recording engineer',
-            bandcamp_link='http://bandcampfake.com/fakelink2',
-            soundcloud_link='http://soundcloud.com/fakelink2',
-            spotify_link='http://open.spotify.com/fakelink2',
-            buy_link='http://itunes.com/fakelink2',
-            press_release='Donec tincidunt massa id orci posuere, sed ultricies purus accumsan. Quisque ac convallis mi, sodales laoreet quam. Cras finibus massa at blandit sodales',
+            label="a label2",
+            format=["CD"],
+            mastered="2mastering engineer",
+            design="2graphic designer",
+            recorded="2recording engineer",
+            bandcamp_link="http://bandcampfake.com/fakelink2",
+            soundcloud_link="http://soundcloud.com/fakelink2",
+            spotify_link="http://open.spotify.com/fakelink2",
+            buy_link="http://itunes.com/fakelink2",
+            press_release="Donec tincidunt massa id orci posuere, sed ultricies purus accumsan. Quisque ac",
             image=get_image_file(),
-            release_date='2019-12-01',
-
+            release_date="2019-12-01",
         )
 
         self.release3 = Release.objects.create(
             title="title 3",
             project=self.project,
-            label='a label',
-            format=['CD','DL'],
-            mastered='3mastering engineer',
-            design='3graphic designer',
-            recorded='3recording engineer',
-            bandcamp_link='http://bandcampfake.com/fakelink3',
-            soundcloud_link='http://soundcloud.com/fakelink3',
-            spotify_link='http://open.spotify.com/fakelink3',
-            buy_link='http://itunes.com/fakelink3',
-            press_release='ed viverra ex ex, commodo commodo magna tempor nec. Nullam lectus risus',
+            label="a label",
+            format=["CD", "DL"],
+            mastered="3mastering engineer",
+            design="3graphic designer",
+            recorded="3recording engineer",
+            bandcamp_link="http://bandcampfake.com/fakelink3",
+            soundcloud_link="http://soundcloud.com/fakelink3",
+            spotify_link="http://open.spotify.com/fakelink3",
+            buy_link="http://itunes.com/fakelink3",
+            press_release="ed viverra ex ex, commodo commodo magna tempor nec. Nullam lectus risus",
             image=get_image_file(),
-            release_date='2020-01-01',
-
+            release_date="2020-01-01",
         )
 
         self.release3 = Release.objects.create(
             title="title 4",
             project=self.project,
-            label='a label',
-            format=['CD', 'DL','LP'],
-            mastered='4mastering engineer',
-            design='4graphic designer',
-            recorded='4recording engineer',
-            bandcamp_link='http://bandcampfake.com/fakelink4',
-            soundcloud_link='http://soundcloud.com/fakelink4',
-            spotify_link='http://open.spotify.com/fakelink4',
-            buy_link='http://itunes.com/fakelink4',
-            press_release='ed viverra ex ex, commodo commodo magna tempor nec. Nullam lectus risus',
+            label="a label",
+            format=["CD", "DL", "LP"],
+            mastered="4mastering engineer",
+            design="4graphic designer",
+            recorded="4recording engineer",
+            bandcamp_link="http://bandcampfake.com/fakelink4",
+            soundcloud_link="http://soundcloud.com/fakelink4",
+            spotify_link="http://open.spotify.com/fakelink4",
+            buy_link="http://itunes.com/fakelink4",
+            press_release="ed viverra ex ex, commodo commodo magna tempor nec. Nullam lectus risus",
             image=get_image_file(),
-            release_date='2020-05-05',
-
+            release_date="2020-05-05",
         )
 
     def test_get_all_releases(self):
@@ -672,11 +693,16 @@ class ReleasesItemsTests(APITestCase):
             releaseitems, many=True, context={"request": Request(request)}
         )
 
-
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data[0]["title"], "title 1")
         self.assertEqual(response.data[1]["title"], "title 2")
+
+    def test_get_all_releases_ordering(self):
+
+        response = self.client.get("/api/releases/?ordering=release_date")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]["title"], "title 2")
 
     def test_get_single_release(self):
 
@@ -690,24 +716,23 @@ class ReleasesItemsTests(APITestCase):
         response = self.client.get(reverse("release-detail", kwargs={"pk": 100}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-
     def test_update_single_release(self):
 
         payload = {
-            "title":"updating title",
-            "project":self.project.pk,
-            "label":'a label',
-            "format":['CD'],
-            "mastered":'40876mastering engineer',
-            "design":'465465graphic designer',
-            "recorded":'454645recording engineer',
-            "bandcamp_link":'http://bandcampfake.com/fakelink4435',
-            "soundcloud_link":'http://soundcloud.com/fakelink45435',
-            "spotify_link":'http://open.spotify.com/fakelink4543',
-            "buy_link":'http://itunes.com/fakelink445354',
-            "press_release":'Blah Blah Blah',
-            "image":get_image_file(),
-            "release_date":'2020-07-01',
+            "title": "updating title",
+            "project": self.project.pk,
+            "label": "a label",
+            "format": ["CD"],
+            "mastered": "40876mastering engineer",
+            "design": "465465graphic designer",
+            "recorded": "454645recording engineer",
+            "bandcamp_link": "http://bandcampfake.com/fakelink4435",
+            "soundcloud_link": "http://soundcloud.com/fakelink45435",
+            "spotify_link": "http://open.spotify.com/fakelink4543",
+            "buy_link": "http://itunes.com/fakelink445354",
+            "press_release": "Blah Blah Blah",
+            "image": get_image_file(),
+            "release_date": "2020-07-01",
         }
 
         response = self.client.put(
@@ -721,30 +746,35 @@ class ReleasesItemsTests(APITestCase):
         self.assertEqual(response.data["mastered"], "40876mastering engineer")
         self.assertEqual(response.data["recorded"], "454645recording engineer")
         self.assertEqual(response.data["design"], "465465graphic designer")
-        self.assertEqual(response.data["bandcamp_link"], "http://bandcampfake.com/fakelink4435")
-        self.assertEqual(response.data["soundcloud_link"], "http://soundcloud.com/fakelink45435")
-        self.assertEqual(response.data["spotify_link"], "http://open.spotify.com/fakelink4543")
+        self.assertEqual(
+            response.data["bandcamp_link"], "http://bandcampfake.com/fakelink4435"
+        )
+        self.assertEqual(
+            response.data["soundcloud_link"], "http://soundcloud.com/fakelink45435"
+        )
+        self.assertEqual(
+            response.data["spotify_link"], "http://open.spotify.com/fakelink4543"
+        )
         self.assertEqual(response.data["buy_link"], "http://itunes.com/fakelink445354")
         self.assertEqual(response.data["press_release"], "Blah Blah Blah")
         self.assertEqual(response.data["release_date"], "2020-07-01")
-
 
     def test_update_single_release_no_auth(self):
         payload = {
             "title": "Title X",
             "project": self.project.pk,
-            "label": 'a label X',
-            "format": ['CD'],
-            "mastered": 'X mastering engineer',
-            "design": 'X graphic designer',
-            "recorded": 'X recording engineer',
-            "bandcamp_link": 'http://bandcampfake.com/x',
-            "soundcloud_link": 'http://soundcloud.com/x',
-            "spotify_link": 'http://open.spotify.com/x',
-            "buy_link": 'http://itunes.com/x',
-            "press_release": 'x',
+            "label": "a label X",
+            "format": ["CD"],
+            "mastered": "X mastering engineer",
+            "design": "X graphic designer",
+            "recorded": "X recording engineer",
+            "bandcamp_link": "http://bandcampfake.com/x",
+            "soundcloud_link": "http://soundcloud.com/x",
+            "spotify_link": "http://open.spotify.com/x",
+            "buy_link": "http://itunes.com/x",
+            "press_release": "x",
             "image": get_image_file(),
-            "release_date": '2019-12-20',
+            "release_date": "2019-12-20",
         }
 
         response = self.non_auth_client.put(
@@ -760,7 +790,6 @@ class ReleasesItemsTests(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["title"], "Patched Title")
-
 
     def test_partial_update_single_release_no_auth(self):
         payload = {"title": "Another Title Patch"}
@@ -823,27 +852,27 @@ class ReleasesItemsTests(APITestCase):
         self.assertEqual(response.data["press_release"], "etc etc etc")
         self.assertEqual(response.data["release_date"], "2019-11-09")
 
-
     def test_post_new_news_item_no_auth(self):
         payload = {
             "title": "Fail ",
             "project": self.project.pk,
-            "label": 'fail',
-            "format": 'LP',
-            "mastered": 'fail',
-            "design": 'fail',
-            "recorded": 'fail',
-            "bandcamp_link": 'http://bandcampfake.com/fail',
-            "soundcloud_link": 'http://soundcloud.com/fail',
-            "spotify_link": 'http://open.spotify.com/fail',
-            "buy_link": 'http://itunes.com/fail',
-            "press_release": 'this call will fail',
+            "label": "fail",
+            "format": "LP",
+            "mastered": "fail",
+            "design": "fail",
+            "recorded": "fail",
+            "bandcamp_link": "http://bandcampfake.com/fail",
+            "soundcloud_link": "http://soundcloud.com/fail",
+            "spotify_link": "http://open.spotify.com/fail",
+            "buy_link": "http://itunes.com/fail",
+            "press_release": "this call will fail",
             "image": get_image_file(),
-            "release_date": '1987-01-01',
+            "release_date": "1987-01-01",
         }
 
         response = self.non_auth_client.post(reverse("releases"), data=payload)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
 
 class ImagesItemsTests(APITestCase):
     def setUp(self):
@@ -851,21 +880,9 @@ class ImagesItemsTests(APITestCase):
 
         self.non_auth_client = APIClient()
 
+        self.image1 = Image.objects.create(src=get_image_file(), width=1, height=1)
 
-        self.image1 = Image.objects.create(
-            src = get_image_file(),
-            width=1,
-            height=1
-        )
-
-        self.image2 = Image.objects.create(
-            src=get_image_file(),
-            width=2,
-            height=2
-
-        )
-
-
+        self.image2 = Image.objects.create(src=get_image_file(), width=2, height=2)
 
     def test_get_all_images(self):
 
@@ -876,7 +893,6 @@ class ImagesItemsTests(APITestCase):
         serializer = ImageGallerySerializer(
             imageitems, many=True, context={"request": Request(request)}
         )
-
 
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -895,14 +911,9 @@ class ImagesItemsTests(APITestCase):
         response = self.client.get(reverse("image-gallery-detail", kwargs={"pk": 8}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-
     def test_update_single_release(self):
 
-        payload = {
-            "src":get_image_file(),
-            "width":3,
-            "height":3
-        }
+        payload = {"src": get_image_file(), "width": 3, "height": 3}
 
         response = self.client.put(
             reverse("image-gallery-detail", kwargs={"pk": self.image1.pk}), data=payload
@@ -911,14 +922,8 @@ class ImagesItemsTests(APITestCase):
         self.assertEqual(response.data["width"], 3)
         self.assertEqual(response.data["height"], 3)
 
-
-
     def test_update_single_release_no_auth(self):
-        payload = {
-            "src":get_image_file(),
-            "width":4,
-            "height":4
-        }
+        payload = {"src": get_image_file(), "width": 4, "height": 4}
 
         response = self.non_auth_client.put(
             reverse("image-gallery-detail", kwargs={"pk": self.image1.pk}), data=payload
@@ -933,7 +938,6 @@ class ImagesItemsTests(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["width"], 4)
-
 
     def test_partial_update_single_image_no_auth(self):
         payload = {"height": 4}
@@ -962,26 +966,15 @@ class ImagesItemsTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_post_new_image(self):
-        payload = {
-            "src": get_image_file(),
-            "width": 5,
-            "height": 5
-        }
+        payload = {"src": get_image_file(), "width": 5, "height": 5}
 
         response = self.client.post(reverse("image-gallery"), data=payload)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["width"],5)
-        self.assertEqual(response.data["height"],5)
-
+        self.assertEqual(response.data["width"], 5)
+        self.assertEqual(response.data["height"], 5)
 
     def test_post_new_news_item_no_auth(self):
-        payload = {
-            "src": get_image_file(),
-            "width": 666,
-            "height": 666
-        }
+        payload = {"src": get_image_file(), "width": 666, "height": 666}
 
         response = self.non_auth_client.post(reverse("image-gallery"), data=payload)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-
-
