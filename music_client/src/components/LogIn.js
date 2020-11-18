@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Col,  Alert, Button } from "reactstrap";
+import { Col, Alert, Button } from "reactstrap";
 import axios from "axios";
 
 function LogIn({ loggerIn }) {

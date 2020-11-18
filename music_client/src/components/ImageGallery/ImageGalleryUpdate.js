@@ -40,7 +40,7 @@ function ImageGalleryUpdate() {
       <Redirect
         push
         to={{
-          pathname: "/",
+          pathname: "/images",
         }}
       />
     );

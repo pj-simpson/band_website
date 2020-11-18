@@ -1,12 +1,19 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-import { Nav, NavItem, NavLink,Dropdown, DropdownItem, DropdownToggle, DropdownMenu, } from "reactstrap";
+import {
+  Nav,
+  NavItem,
+  NavLink,
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
+  DropdownMenu,
+} from "reactstrap";
 
 function AdminNavigation() {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-
-    const toggle = () => setDropdownOpen(!dropdownOpen);
+  const toggle = () => setDropdownOpen(!dropdownOpen);
 
   return (
     <div className="admin-nav">
@@ -29,19 +36,19 @@ function AdminNavigation() {
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem>
-                <NavItem>
-                  <NavLink href="/imagesupdate">Images Update</NavLink>
-                </NavItem>
+              <NavItem>
+                <NavLink href="/imagesupdate">Images Update</NavLink>
+              </NavItem>
             </DropdownItem>
             <DropdownItem divider />
             <DropdownItem>
-                <NavItem>
-                  <NavLink href="/imagesedit">Images Edit</NavLink>
-                </NavItem>
+              <NavItem>
+                <NavLink href="/imagesedit">Images Edit</NavLink>
+              </NavItem>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
-          <NavItem>
+        <NavItem>
           <NavLink href="/biogupdate">Biog Update</NavLink>
         </NavItem>
       </Nav>
@@ -50,6 +57,3 @@ function AdminNavigation() {
 }
 
 export default AdminNavigation;
-
-
-

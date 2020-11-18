@@ -195,7 +195,7 @@ function ReleaseUpdate() {
             />
           </div>
 
-            <div className="form-group">
+          <div className="form-group">
             <label>Release Date:</label>
 
             <input

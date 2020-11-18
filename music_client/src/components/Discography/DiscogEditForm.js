@@ -13,7 +13,7 @@ function DiscogEditForm({ item, toggle, updater }) {
     event.preventDefault();
     const formData = new FormData();
     const item_id = item.id;
-    const new_format = data.format.toString().split(',')
+    const new_format = data.format.toString().split(",");
 
     if (data.title !== "") {
       formData.append("title", data.title);
@@ -114,7 +114,6 @@ function DiscogEditForm({ item, toggle, updater }) {
             placeholder={item.title}
           />
         </div>
-
         <div className="form-group">
           <label>Label:</label>
           <input
@@ -125,7 +124,6 @@ function DiscogEditForm({ item, toggle, updater }) {
             placeholder={item.label}
           />
         </div>
-
         <div className="form-group">
           <label>Format:</label>
           <select
@@ -140,7 +138,6 @@ function DiscogEditForm({ item, toggle, updater }) {
             <option value="CD">CD</option>
           </select>
         </div>
-
         <div className="form-group">
           <label>Bandcamp:</label>
           <input
@@ -151,7 +148,6 @@ function DiscogEditForm({ item, toggle, updater }) {
             placeholder={item.bandcamp_link}
           />
         </div>
-
         <div className="form-group">
           <label>Soundcloud:</label>
           <input
@@ -162,7 +158,6 @@ function DiscogEditForm({ item, toggle, updater }) {
             placeholder={item.soundcloud_link}
           />
         </div>
-
         <div className="form-group">
           <label>Spotify:</label>
           <input
@@ -173,7 +168,6 @@ function DiscogEditForm({ item, toggle, updater }) {
             placeholder={item.spotify_link}
           />
         </div>
-
         <div className="form-group">
           <label>Buy Physical:</label>
           <input
@@ -184,7 +178,6 @@ function DiscogEditForm({ item, toggle, updater }) {
             placeholder={item.buy_link}
           />
         </div>
-
         <div className="form-group">
           <label>Press Release:</label>
           <textarea
@@ -194,14 +187,12 @@ function DiscogEditForm({ item, toggle, updater }) {
             placeholder={item.press_release}
           />
         </div>
-
         <div className="form-group">
           <label>Project:</label>
           <select ref={register} name="project" className="form-control">
             <option value="1">ELS</option>
           </select>
         </div>
-
         <div className="form-group">
           <label>Recorded by:</label>
           <input
@@ -212,7 +203,6 @@ function DiscogEditForm({ item, toggle, updater }) {
             placeholder={item.recorded}
           />
         </div>
-
         <div className="form-group">
           <label>Mastered By:</label>
           <input
@@ -223,7 +213,6 @@ function DiscogEditForm({ item, toggle, updater }) {
             placeholder={item.mastered}
           />
         </div>
-
         <div className="form-group">
           <label>Design By:</label>
           <input
@@ -234,18 +223,16 @@ function DiscogEditForm({ item, toggle, updater }) {
             placeholder={item.design}
           />
         </div>
+        <div className="form-group">
+          <label>Release Date:</label>
 
-          <div className="form-group">
-            <label>Release Date:</label>
-
-            <input
-              type="date"
-              ref={register}
-              name="release_date"
-              className="form-control-file"
-            />
-          </div>
-
+          <input
+            type="date"
+            ref={register}
+            name="release_date"
+            className="form-control-file"
+          />
+        </div>
         <div className="form-group">
           <label>Image:</label>
 
@@ -256,11 +243,9 @@ function DiscogEditForm({ item, toggle, updater }) {
             className="form-control-file"
           />
         </div>
-
         <Button color="primary" type="submit">
           Submit
-        </Button>
-          {' '}
+        </Button>{" "}
         <Button color="secondary" onClick={toggle}>
           Cancel
         </Button>

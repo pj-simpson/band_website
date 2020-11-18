@@ -1,20 +1,18 @@
-import React, { Component } from 'react';
-import { EditorState, convertToRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
-import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import React, { Component } from "react";
+import { EditorState, convertToRaw } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import draftToHtml from "draftjs-to-html";
+import "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import axios from "axios";
-import {getAccessToken} from "../../services/AuthService";
-import {Button, Col} from "reactstrap";
-import {Redirect} from "react-router-dom";
-
+import { getAccessToken } from "../../services/AuthService";
+import { Button, Col } from "reactstrap";
+import { Redirect } from "react-router-dom";
 
 export class BiogEditor extends Component {
-
   state = {
     editorState: EditorState.createEmpty(),
-    submitted:false
-  }
+    submitted: false,
+  };
 
   onEditorStateChange = (editorState) => {
     this.setState({
@@ -22,52 +20,70 @@ export class BiogEditor extends Component {
     });
   };
 
-   onSubmit = (editorState) => {
-
-    const biog = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
-
+  onSubmit = (editorState) => {
+    const biog = draftToHtml(
+      convertToRaw(this.state.editorState.getCurrentContent())
+    );
 
     axios
-      .post("biog/", {'biography':biog}, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + getAccessToken(),
-        },
-      })
-        .then(this.setState({submitted:true}))
-  }
+      .post(
+        "biog/",
+        { biography: biog },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getAccessToken(),
+          },
+        }
+      )
+      .then(this.setState({ submitted: true }));
+  };
 
-
-
-
-
-  render()  {
+  render() {
     const { editorState } = this.state;
     if (this.state.submitted) {
-        return (<Redirect
-                push
-                to={{
-                  pathname: "/biog",
-                }}
-              />)
+      return (
+        <Redirect
+          push
+          to={{
+            pathname: "/biog",
+          }}
+        />
+      );
     } else {
-    return (
-      <div>
-       <Col xs="10">
+      return (
+        <div>
+          <Col xs="10">
             <Editor
               editorState={editorState}
               wrapperClassName="demo-wrapper"
               editorClassName="demo-editor"
               onEditorStateChange={this.onEditorStateChange}
-              toolbar={{ options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'remove', 'history'],}}
+              toolbar={{
+                options: [
+                  "inline",
+                  "blockType",
+                  "fontSize",
+                  "fontFamily",
+                  "list",
+                  "textAlign",
+                  "colorPicker",
+                  "link",
+                  "remove",
+                  "history",
+                ],
+              }}
             />
             <Button
               color="primary"
               className="item-button"
               onClick={() => this.onSubmit()}
-            >Submit</Button>
-       </Col>
-      </div>
-    )};
+            >
+              Submit
+            </Button>
+          </Col>
+        </div>
+      );
+    }
   }
 }

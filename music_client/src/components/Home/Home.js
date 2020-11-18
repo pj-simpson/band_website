@@ -6,9 +6,6 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
 
-
-
-
   const getHomeImage = () => {
     axios.get("latesthomeimage/").then((response) => {
       setData(response.data);
@@ -19,7 +16,6 @@ function Home() {
   useEffect(() => {
     getHomeImage();
   }, [isLoading]);
-
 
   return (
     <div>

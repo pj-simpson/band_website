@@ -74,7 +74,6 @@ export class News extends React.Component {
     this.listRemover(item_id);
   };
 
-
   render() {
     return (
       <div>
@@ -88,30 +87,27 @@ export class News extends React.Component {
           >
             {this.state.items.length > 0
               ? this.state.items.map((item) => (
-
                   <div
                     className="news-card justify-content-around col-md"
                     key={item.id}
+                    id={item.id}
                   >
-                      <Moment format="DD/MM/YYYY">
-                            {item.created_date}
-                          </Moment>
+                    <Moment format="DD/MM/YYYY">{item.created_date}</Moment>
                     <Card
                       className="news-card"
                       body
                       inverse
-                      style={{ backgroundColor: "black"}}
+                      style={{ backgroundColor: "black" }}
                     >
-                    <CardImg className="news-image" src={item.image} />
-                    <CardBody>
-                      <CardTitle style={{ backgroundColor: "black" }}>
-                        <h2>{item.headline}</h2>
-                      </CardTitle>
-                      <CardSubtitle>
-                        <a href={item.link}>{item.link_title}</a>
-                      </CardSubtitle>
+                      <CardImg className="news-image" src={item.image} />
+                      <CardBody>
+                        <CardTitle style={{ backgroundColor: "black" }}>
+                          <h2>{item.headline}</h2>
+                        </CardTitle>
+                        <CardSubtitle>
+                          <a href={item.link}>{item.link_title}</a>
+                        </CardSubtitle>
                         <CardText>
-
                           <p className="press-release">{item.body}</p>
                         </CardText>
                       </CardBody>

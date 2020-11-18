@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Col, Spinner } from "reactstrap";
-import renderHTML from 'react-render-html';
-
+import renderHTML from "react-render-html";
 
 function Biog() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
-
-
 
   const getBiography = () => {
     axios.get("latestbiog/").then((response) => {
@@ -21,8 +18,6 @@ function Biog() {
     getBiography();
   }, [isLoading]);
 
-
-
   return (
     <div>
       {isLoading ? (
@@ -31,9 +26,7 @@ function Biog() {
         </Spinner>
       ) : (
         <div>
-          <Col xs="auto">
-             {renderHTML(data.biography)}
-          </Col>
+          <Col xs="auto">{renderHTML(data.biography)}</Col>
         </div>
       )}
     </div>

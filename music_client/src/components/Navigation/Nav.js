@@ -39,7 +39,7 @@ function Navigation({ loggerOuter, isLoggedIn }) {
                 Discography
               </NavLink>
             </NavItem>
-              <NavItem>
+            <NavItem>
               <NavLink to="/biog" activeClassName="active" tag={RRNavLink}>
                 Biog
               </NavLink>

@@ -72,8 +72,7 @@ function Discography({ isLoggedIn }) {
     };
 
     const item_id = item.id;
-    axios.delete(`releases/${item_id}/`, config).then(function (response) {
-    });
+    axios.delete(`releases/${item_id}/`, config).then(function (response) {});
 
     listRemover(item_id);
   }
@@ -88,15 +87,13 @@ function Discography({ isLoggedIn }) {
         Object.keys(rows).map((row) => {
           return (
             <Row sm="4" className="justify-content-around" key={row}>
-
-
               {data
                 .filter(function (eachElem, index) {
                   return rows[row].includes(index.toString());
                 })
                 .map((item) => (
                   <Col>
-                    <div className="news-card" key={item.id}>
+                    <div className="news-card" key={item.id} id={item.id}>
                       <Card
                         className="news-card"
                         body
@@ -139,8 +136,11 @@ function Discography({ isLoggedIn }) {
 
                           <p>
                             <ul>
-                                <li>
-                                Release Date: <Moment format="DD/MM/YYYY">{item.release_date && item.release_date}</Moment>
+                              <li>
+                                Release Date:{" "}
+                                <Moment format="DD/MM/YYYY">
+                                  {item.release_date && item.release_date}
+                                </Moment>
                               </li>
                               <li>
                                 Mastered By: {item.mastered && item.mastered}

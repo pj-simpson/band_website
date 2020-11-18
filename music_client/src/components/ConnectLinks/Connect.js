@@ -57,7 +57,7 @@ function Connect({ isLoggedIn }) {
                 {data
                   .filter((item) => item.category === "Platform")
                   .map((item) => (
-                    <tr key={item.id}>
+                    <tr key={item.id} id={item.id}>
                       <td>
                         <a href={item.link}>{item.link_title}</a>
                       </td>
@@ -88,7 +88,7 @@ function Connect({ isLoggedIn }) {
                 {data
                   .filter((item) => item.category === "Mix")
                   .map((item) => (
-                    <tr key={item.id}>
+                    <tr key={item.id} id={item.id}>
                       <td>
                         <a href={item.link}>{item.link_title}</a>
                       </td>
@@ -119,7 +119,7 @@ function Connect({ isLoggedIn }) {
                 {data
                   .filter((item) => item.category === "Press")
                   .map((item) => (
-                    <tr key={item.id}>
+                    <tr key={item.id} id={item.id}>
                       <td>
                         <a href={item.link}>{item.link_title}</a>
                       </td>
@@ -150,7 +150,7 @@ function Connect({ isLoggedIn }) {
                 {data
                   .filter((item) => item.category === "Project")
                   .map((item) => (
-                    <tr key={item.id}>
+                    <tr key={item.id} id={item.id}>
                       <td>
                         <a href={item.link}>{item.link_title}</a>
                         {isLoggedIn && (
@@ -176,4 +176,3 @@ function Connect({ isLoggedIn }) {
 }
 
 export default Connect;
-

@@ -88,12 +88,15 @@ function NewsEditForm({ item, updater, toggle }) {
             placeholder={item.headline}
           />
         </div>
-
         <div className="form-group">
           <label htmlFor="body">Body:</label>
-          <textarea ref={register} name="body" className="form-control" placeholder={item.body} />
+          <textarea
+            ref={register}
+            name="body"
+            className="form-control"
+            placeholder={item.body}
+          />
         </div>
-
         <div className="form-group">
           <label>Link:</label>
           <input
@@ -104,7 +107,6 @@ function NewsEditForm({ item, updater, toggle }) {
             placeholder={item.link}
           />
         </div>
-
         <div className="form-group">
           <label>Link title:</label>
           <input
@@ -115,7 +117,6 @@ function NewsEditForm({ item, updater, toggle }) {
             placeholder={item.link_title}
           />
         </div>
-
         <div className="form-group">
           <label>Image:</label>
 
@@ -126,7 +127,6 @@ function NewsEditForm({ item, updater, toggle }) {
             className="form-control-file"
           />
         </div>
-
         <div className="form-group">
           <label>Project:</label>
 
@@ -134,11 +134,9 @@ function NewsEditForm({ item, updater, toggle }) {
             <option value="1">ELS</option>
           </select>
         </div>
-
         <Button color="primary" type="submit">
           Submit
-        </Button>
-          {' '}
+        </Button>{" "}
         <Button color="secondary" onClick={toggle}>
           Cancel
         </Button>
