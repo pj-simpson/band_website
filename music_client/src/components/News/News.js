@@ -107,8 +107,8 @@ export class News extends React.Component {
                         <CardSubtitle>
                           <a href={item.link}>{item.link_title}</a>
                         </CardSubtitle>
-                        <CardText>
-                          <p className="press-release">{item.body}</p>
+                        <CardText className="press-release">
+                          {item.body}
                         </CardText>
                       </CardBody>
                       {this.props.isLoggedIn && (
@@ -136,9 +136,7 @@ export class News extends React.Component {
           </InfiniteScroll>
 
           {this.state.isLoading && (
-            <Spinner animation="grow" role="status">
-              <span className="sr-only">Loading...</span>
-            </Spinner>
+            <Spinner animation="grow" color="light"/>
           )}
         </Col>
       </div>

@@ -41,9 +41,7 @@ function Connect({ isLoggedIn }) {
   return (
     <div>
       {isLoading ? (
-        <Spinner animation="grow" role="status">
-          <span className="sr-only">Loading...</span>
-        </Spinner>
+        <Spinner animation="grow" color="light"/>
       ) : (
         <Row sm="4" className="justify-content-around connect-table-row">
           <Col>
@@ -60,8 +58,7 @@ function Connect({ isLoggedIn }) {
                     <tr key={item.id} id={item.id}>
                       <td>
                         <a href={item.link}>{item.link_title}</a>
-                      </td>
-                      {isLoggedIn && (
+                          {isLoggedIn && (
                         <Button
                           color="danger"
                           className="item-button"
@@ -71,6 +68,7 @@ function Connect({ isLoggedIn }) {
                           x
                         </Button>
                       )}
+                      </td>
                     </tr>
                   ))}
               </tbody>
@@ -91,8 +89,7 @@ function Connect({ isLoggedIn }) {
                     <tr key={item.id} id={item.id}>
                       <td>
                         <a href={item.link}>{item.link_title}</a>
-                      </td>
-                      {isLoggedIn && (
+                          {isLoggedIn && (
                         <Button
                           color="danger"
                           className="item-button"
@@ -102,6 +99,8 @@ function Connect({ isLoggedIn }) {
                           x
                         </Button>
                       )}
+                      </td>
+
                     </tr>
                   ))}
               </tbody>
@@ -122,8 +121,7 @@ function Connect({ isLoggedIn }) {
                     <tr key={item.id} id={item.id}>
                       <td>
                         <a href={item.link}>{item.link_title}</a>
-                      </td>
-                      {isLoggedIn && (
+                          {isLoggedIn && (
                         <Button
                           color="danger"
                           className="item-button"
@@ -133,6 +131,8 @@ function Connect({ isLoggedIn }) {
                           x
                         </Button>
                       )}
+                      </td>
+
                     </tr>
                   ))}
               </tbody>

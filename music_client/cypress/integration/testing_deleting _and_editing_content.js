@@ -34,12 +34,12 @@ describe("Testing the navbars", function () {
 
         cy.get('div[class="news-card justify-content-around col-md"]')
           .first()
-          .then(($newNewsDiv, a = newsDivId) => {
+          .then(($newNewsDiv, deletedDiv = newsDivId) => {
 
 
             const secondNewsDiv = $newNewsDiv.get(0).id;
 
-            expect(secondNewsDiv).to.not.eq(a);
+            expect(secondNewsDiv).to.not.eq(deletedDiv);
           });
       });
 
@@ -52,29 +52,49 @@ describe("Testing the navbars", function () {
     cy.get("h2").contains("Editing The Title of this release");
 
     //Delete Release
-    //we are grabbing the ID of the first element, deleting it and then checking that the first element, no longer has that id
 
-    // cy.get('div[class="news-card"]').first().its('id').then(($releasecard) => {
-    //     cy.log($releasecard)
-    //
-    //       cy.get('button[class="item-button btn btn-danger"]').contains('Delete').click();
-    //
-    //       cy.get('div[class="news-card"]').first().should('not.eq',$releasecard);
-    //
-    // });
+      cy.get('div[class="news-card"]')
+      .first()
+      .then(($releaseDiv) => {
+        const releaseDivID = $releaseDiv.get(0).id;
+
+        cy.get('button[class="item-button btn btn-danger"]')
+          .contains("Delete")
+          .click();
+
+        cy.get('div[class="news-card"]')
+          .first()
+          .then(($newReleaseDiv, deletedDiv = releaseDivID) => {
+
+
+            const secondReleaseDiv = $newReleaseDiv.get(0).id;
+
+            expect(secondReleaseDiv).to.not.eq(deletedDiv);
+          });
+      });
 
     //Delete Connect Link
-    //we are grabbing the ID of the first element, deleting it and then checking that the first element, no longer has that id
 
-    // cy.visit('/connect');
-    //
-    // cy.get('tr').first().its('id').then(($conntectRow) => {
-    //
-    //       cy.get('button[class="item-button btn btn-danger btn-sm"]').contains('x').click();
-    //
-    //       cy.get('tr').first().should('not.eq',$conntectRow);
-    //
-    // });
+    cy.visit("/connect");
+    cy.get('tbody > tr')
+      .first()
+      .then(($tableRow) => {
+        const tableRowId = $tableRow.get(0).id;
+
+        cy.get('button[class="item-button btn btn-danger btn-sm"]')
+          .contains("x")
+          .click();
+
+        cy.get('tbody > tr')
+          .first()
+          .then(($newTableRow, deletedTableRow = tableRowId) => {
+
+
+            const secondTableRow = $newTableRow.get(0).id;
+
+            expect(secondTableRow).to.not.eq(deletedTableRow);
+          });
+      });
 
     //Resize Image
     // cy.visit('/imagesedit');

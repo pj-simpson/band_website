@@ -56,18 +56,18 @@ function ConnectUpdate() {
           </Alert>
         )}
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div class="form-group">
+          <div className="form-group">
             <label>Link:</label>
-            <input type="url" ref={register} name="link" class="form-control" />
+            <input type="url" ref={register} name="link" className="form-control" />
           </div>
 
-          <div class="form-group">
+          <div className="form-group">
             <label>Link title:</label>
             <input
               type="text"
               ref={register}
               name="linktitle"
-              class="form-control"
+              className="form-control"
             />
           </div>
 

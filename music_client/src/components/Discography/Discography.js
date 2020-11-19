@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardImg,
-  CardText,
+  CardBody,
   Col,
   Row,
   Spinner,
@@ -80,9 +80,7 @@ function Discography({ isLoggedIn }) {
   return (
     <div>
       {isLoading ? (
-        <Spinner animation="grow" role="status">
-          <span className="sr-only">Loading...</span>
-        </Spinner>
+        <Spinner animation="grow" color="light"/>
       ) : (
         Object.keys(rows).map((row) => {
           return (
@@ -92,8 +90,8 @@ function Discography({ isLoggedIn }) {
                   return rows[row].includes(index.toString());
                 })
                 .map((item) => (
-                  <Col>
-                    <div className="news-card" key={item.id} id={item.id}>
+                  <Col key={item.id}>
+                    <div className="news-card"  id={item.id}>
                       <Card
                         className="news-card"
                         body
@@ -107,8 +105,8 @@ function Discography({ isLoggedIn }) {
                           <h2>{item.title}</h2>
                         </CardHeader>
                         <CardImg className="news-image" src={item.image} />
-                        <CardText>
-                          <div class="link-icons">
+                        <CardBody>
+                          <div className="link-icons">
                             {item.bandcamp_link && (
                               <a href={item.bandcamp_link}>
                                 <FaBandcamp />
@@ -134,7 +132,7 @@ function Discography({ isLoggedIn }) {
                             )}
                           </div>
 
-                          <p>
+                          <div>
                             <ul>
                               <li>
                                 Release Date:{" "}
@@ -152,10 +150,10 @@ function Discography({ isLoggedIn }) {
                               <li>Label: {item.label && item.label}</li>
                               <li>Formats: {item.format && item.format}</li>
                             </ul>
-                          </p>
+                          </div>
 
-                          <p class="press-release">{item.press_release}</p>
-                        </CardText>
+                          <div className="press-release">{item.press_release}</div>
+                        </CardBody>
                         {isLoggedIn && (
                           <CardFooter style={{ backgroundColor: "black" }}>
                             <div className="edit-buttons">

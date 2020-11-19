@@ -74,7 +74,7 @@ function ReleaseUpdate() {
               type="text"
               ref={register}
               name="title"
-              class="form-control"
+              className="form-control"
             />
           </div>
 
@@ -84,13 +84,13 @@ function ReleaseUpdate() {
               type="text"
               ref={register}
               name="label"
-              class="form-control"
+              className="form-control"
             />
           </div>
 
           <div className="form-group">
             <label>Format:</label>
-            <select multiple ref={register} name="format" class="form-control">
+            <select multiple ref={register} name="format" className="form-control">
               <option value="DL">DL</option>
               <option value="LP">LP</option>
               <option value="CS">CS</option>
@@ -104,7 +104,7 @@ function ReleaseUpdate() {
               type="url"
               ref={register}
               name="bandcamp_link"
-              class="form-control"
+              className="form-control"
             />
           </div>
 
@@ -114,7 +114,7 @@ function ReleaseUpdate() {
               type="url"
               ref={register}
               name="soundcloud_link"
-              class="form-control"
+              className="form-control"
             />
           </div>
 
@@ -124,7 +124,7 @@ function ReleaseUpdate() {
               type="url"
               ref={register}
               name="spotify_link"
-              class="form-control"
+              className="form-control"
             />
           </div>
 
@@ -134,7 +134,7 @@ function ReleaseUpdate() {
               type="url"
               ref={register}
               name="buy_link"
-              class="form-control"
+              className="form-control"
             />
           </div>
 
@@ -143,13 +143,13 @@ function ReleaseUpdate() {
             <textarea
               ref={register}
               name="press_release"
-              class="form-control"
+              className="form-control"
             />
           </div>
 
           <div className="form-group">
             <label>Project:</label>
-            <select ref={register} name="project" class="form-control">
+            <select ref={register} name="project" className="form-control">
               <option value="1">ELS</option>
             </select>
           </div>
@@ -160,7 +160,7 @@ function ReleaseUpdate() {
               type="text"
               ref={register}
               name="recorded"
-              class="form-control"
+              className="form-control"
             />
           </div>
 
@@ -170,7 +170,7 @@ function ReleaseUpdate() {
               type="text"
               ref={register}
               name="mastered"
-              class="form-control"
+              className="form-control"
             />
           </div>
 
@@ -180,7 +180,7 @@ function ReleaseUpdate() {
               type="text"
               ref={register}
               name="design"
-              class="form-control"
+              className="form-control"
             />
           </div>
 

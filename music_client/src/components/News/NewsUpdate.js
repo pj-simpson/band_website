@@ -59,51 +59,51 @@ function NewsUpdate() {
           </Alert>
         )}
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div class="form-group">
+          <div className="form-group">
             <label>Headline:</label>
             <input
               type="text"
               ref={register}
               name="headline"
-              class="form-control"
+              className="form-control"
             />
           </div>
 
-          <div class="form-group">
-            <label for="body">Body:</label>
-            <textarea ref={register} name="body" class="form-control" />
+          <div className="form-group">
+            <label htmlFor="body">Body:</label>
+            <textarea ref={register} name="body" className="form-control" />
           </div>
 
-          <div class="form-group">
+          <div className="form-group">
             <label>Link:</label>
-            <input type="url" ref={register} name="link" class="form-control" />
+            <input type="url" ref={register} name="link" className="form-control" />
           </div>
 
-          <div class="form-group">
+          <div className="form-group">
             <label>Link title:</label>
             <input
               type="text"
               ref={register}
               name="linktitle"
-              class="form-control"
+              className="form-control"
             />
           </div>
 
-          <div class="form-group">
+          <div className="form-group">
             <label>Image:</label>
 
             <input
               type="file"
               ref={register}
               name="image"
-              class="form-control-file"
+              className="form-control-file"
             />
           </div>
 
-          <div class="form-group">
+          <div className="form-group">
             <label>Project:</label>
 
-            <select ref={register} name="project" class="form-control">
+            <select ref={register} name="project" className="form-control">
               <option value="1">ELS</option>
             </select>
           </div>

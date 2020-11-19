@@ -20,9 +20,7 @@ function Home() {
   return (
     <div>
       {isLoading ? (
-        <Spinner animation="grow" role="status">
-          <span className="sr-only">Loading...</span>
-        </Spinner>
+        <Spinner animation="grow" color="light"/>
       ) : (
         <div>
           <Col xs="auto" md={{ offset: 4 }}>

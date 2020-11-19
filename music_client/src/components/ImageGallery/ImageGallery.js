@@ -24,9 +24,7 @@ function Images({ isLoggedIn }) {
   return (
     <div>
       {isLoading ? (
-        <Spinner animation="grow" role="status">
-          <span className="sr-only">Loading...</span>
-        </Spinner>
+        <Spinner animation="grow" color="light"/>
       ) : (
         <Gallery photos={data} direction={"column"} />
       )}
