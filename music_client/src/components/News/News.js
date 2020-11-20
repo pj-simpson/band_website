@@ -76,8 +76,8 @@ export class News extends React.Component {
 
   render() {
     return (
-      <div>
-        <Col xs="8" md={{ offset: 2 }} className="justify-content-around">
+      <div className="row justify-content-center">
+        <Col sm="6">
           <InfiniteScroll
             throttle={100}
             threshold={300}
@@ -88,13 +88,12 @@ export class News extends React.Component {
             {this.state.items.length > 0
               ? this.state.items.map((item) => (
                   <div
-                    className="news-card justify-content-around col-md"
+                    className="news-card"
                     key={item.id}
                     id={item.id}
                   >
                     <Moment format="DD/MM/YYYY">{item.created_date}</Moment>
                     <Card
-                      className="news-card"
                       body
                       inverse
                       style={{ backgroundColor: "black" }}

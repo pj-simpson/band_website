@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Col, Media, Spinner } from "reactstrap";
+import {Col, Media, Row, Spinner} from "reactstrap";
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,8 +22,9 @@ function Home() {
       {isLoading ? (
         <Spinner animation="grow" color="light"/>
       ) : (
-        <div>
-          <Col xs="auto" md={{ offset: 4 }}>
+          <div className="row justify-content-center">
+
+          <Col xs="auto">
             <Media
               className="home-image"
               middle

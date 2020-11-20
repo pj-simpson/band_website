@@ -22,7 +22,7 @@ describe("Testing the navbars", function () {
 
     //cy.get returns a jquery object to .then... we then have to call .get(0).id in order to access the id property... fiddly :)
 
-    cy.get('div[class="news-card justify-content-around col-md"]')
+    cy.get('div[class="news-card"]')
       .first()
       .then(($newsDiv) => {
         const newsDivId = $newsDiv.get(0).id;
@@ -32,7 +32,7 @@ describe("Testing the navbars", function () {
           .click();
         cy.reload();
 
-        cy.get('div[class="news-card justify-content-around col-md"]')
+        cy.get('div[class="news-card"]')
           .first()
           .then(($newNewsDiv, deletedDiv = newsDivId) => {
 
