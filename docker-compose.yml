@@ -16,7 +16,7 @@ services:
   client:
     build:
       context: ./music_client
-    command: npm start .env.local
+    command: npm start .env.production
     ports:
       - 3000:3000
     stdin_open: true
