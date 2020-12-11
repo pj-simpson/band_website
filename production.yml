@@ -43,10 +43,6 @@ services:
     depends_on:
       - web
 
-
-
-
-
   nginx:
     build:
       context: ./nginx
