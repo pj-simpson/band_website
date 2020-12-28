@@ -2,11 +2,10 @@ from rest_framework import filters, generics
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 
-from .models import Biog, Connect, HomeImage, Image, NewsItem, Project, Release
+from .models import Biog, Connect, Image, NewsItem, Project, Release
 from .serializers import (
     BiographySerializer,
     ConnectSerializer,
-    HomeImageSerializer,
     ImageGallerySerializer,
     NewsItemSerializer,
     ProjectSerializer,
@@ -69,21 +68,6 @@ class ConnectDetail(generics.RetrieveUpdateDestroyAPIView):
     parser_classes = (JSONParser, MultiPartParser)
 
 
-class HomeImageList(generics.ListCreateAPIView):
-    queryset = HomeImage.objects.all()
-    serializer_class = HomeImageSerializer
-    parser_classes = (JSONParser, MultiPartParser)
-    pagination_class = None
-
-
-class LatestHomeImage(RetrieveAPIView):
-    queryset = HomeImage.objects.all()
-    serializer_class = HomeImageSerializer
-
-    def get_object(self, *args, **kwargs):
-        return self.queryset.latest("created_date")
-
-
 class ImageGalleryList(generics.ListCreateAPIView):
     queryset = Image.objects.all()
     serializer_class = ImageGallerySerializer
@@ -97,12 +81,19 @@ class ImageGalleryDetail(generics.RetrieveUpdateDestroyAPIView):
     parser_classes = (JSONParser, MultiPartParser)
 
 
-class BiogList(generics.ListCreateAPIView):
+
+class BiographyList(generics.ListCreateAPIView):
     queryset = Biog.objects.all()
     serializer_class = BiographySerializer
     parser_classes = (JSONParser, MultiPartParser)
     pagination_class = None
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ["created_date"]
 
+class BiographyDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Biog.objects.all()
+    serializer_class = BiographySerializer
+    parser_classes = (JSONParser, MultiPartParser)
 
 class LatestBiog(RetrieveAPIView):
     queryset = Biog.objects.all()

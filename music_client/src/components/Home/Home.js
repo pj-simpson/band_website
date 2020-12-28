@@ -1,36 +1,35 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Col, Media, Row, Spinner} from "reactstrap";
+import renderHTML from "react-render-html";
+import home_image from './Home_Image.jpg';
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
 
-  const getHomeImage = () => {
-    axios.get("latesthomeimage/").then((response) => {
-      setData(response.data);
-      setIsLoading(false);
-    });
-  };
+    const getBiography = () => {
+        axios.get("latestbiog/").then((response) => {
+          setData(response.data);
+          setIsLoading(false);
+        });
+      };
 
-  useEffect(() => {
-    getHomeImage();
-  }, [isLoading]);
+      useEffect(() => {
+        getBiography();
+      }, [isLoading]);
 
   return (
     <div>
       {isLoading ? (
         <Spinner animation="grow" color="light"/>
       ) : (
-          <div className="row justify-content-center">
-
+        <div className="row justify-content-center">
+            <Col xs="auto">
+              {renderHTML(data.biography)}
+          </Col>
           <Col xs="auto">
-            <Media
-              className="home-image"
-              middle
-              object
-              src={data.image}
-            ></Media>
+              <img src={home_image}/>
           </Col>
         </div>
       )}

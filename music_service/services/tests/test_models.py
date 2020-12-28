@@ -2,7 +2,7 @@ from django.db.models.fields.files import ImageFieldFile
 from rest_framework.test import APITestCase
 
 from .image_test_util import get_image_file
-from ..models import NewsItem, Project, Release, Biog, Connect, HomeImage, Image
+from ..models import NewsItem, Project, Release, Biog, Connect, Image
 
 
 class ModelsTests(APITestCase):
@@ -46,9 +46,7 @@ class ModelsTests(APITestCase):
             link="link", link_title="link_title", category="Platform",
         )
 
-        self.homeimage = HomeImage.objects.create(image=get_image_file(),)
-
-        self.image = Image.objects.create(src=get_image_file(), width=1, height=1,)
+        self.image = Image.objects.create(src=get_image_file(), width=1, height=1,credit="blah blah blah")
 
     def test_news_item_model(self):
 
@@ -110,10 +108,8 @@ class ModelsTests(APITestCase):
         self.assertEqual(self.connect.link_title, "link_title")
         self.assertEqual(self.connect.category, "Platform")
 
-    def test_homeimage_model(self):
-        self.assertIs(type(self.homeimage.image), ImageFieldFile)
-
     def test_image_model(self):
         self.assertEqual(self.image.width, 1)
         self.assertEqual(self.image.height, 1)
+        self.assertEqual(self.image.credit, "blah blah blah")
         self.assertIs(type(self.image.src), ImageFieldFile)

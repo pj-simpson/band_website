@@ -9,7 +9,7 @@ describe("Testing the navbars", function () {
 
     cy.get('a[class="nav-link"]').contains("News").click();
     cy.url().should("eq", "http://localhost:3000/news");
-    cy.get('div[class="news-card justify-content-around col-md"]');
+    cy.get('div[class="news-card"]');
 
     // proceed to discography
 

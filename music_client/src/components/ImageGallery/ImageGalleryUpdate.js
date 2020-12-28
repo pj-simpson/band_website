@@ -18,6 +18,7 @@ function ImageGalleryUpdate() {
     formData.append("src", data["image"][0]);
     formData.append("height", data.height);
     formData.append("width", data.width);
+    formData.append("credit", data.credit);
 
     axios
       .post("images/", formData, {
@@ -85,6 +86,17 @@ function ImageGalleryUpdate() {
               type="number"
               ref={register}
               name="width"
+              className="form-control"
+            />
+          </div>
+
+        <div className="form-group">
+            <label>Credit:</label>
+
+            <input
+              type="string"
+              ref={register}
+              name="credit"
               className="form-control"
             />
           </div>

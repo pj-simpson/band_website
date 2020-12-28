@@ -56,6 +56,13 @@ function ImageGalleryEdit({ isLoggedIn }) {
         formData.append("width", evt.target.value);
       }
     }
+    if (evt.currentTarget.className === "credit-editable") {
+      if (evt.target.value === "") {
+        return;
+      } else {
+        formData.append("credit", evt.target.value);
+      }
+    }
     if (evt.currentTarget.className === "height-editable") {
       if (evt.target.value === "") {
         return;
@@ -82,6 +89,7 @@ function ImageGalleryEdit({ isLoggedIn }) {
             <thead>
               <tr>
                 <th>Thumb</th>
+                <th>Credit</th>
                 <th>Width</th>
                 <th>Height</th>
                 <th>Delete</th>
@@ -96,6 +104,15 @@ function ImageGalleryEdit({ isLoggedIn }) {
                         <Image src={item.src} thumbnail></Image>
                       </a>
                     </Col>
+                  </td>
+
+                    <td>
+                    <ContentEditable
+                      html={item.credit.toString()}
+                      onChange={handleChange}
+                      id={item.id}
+                      className="credit-editable"
+                    />
                   </td>
 
                   <td>

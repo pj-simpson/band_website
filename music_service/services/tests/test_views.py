@@ -6,11 +6,10 @@ from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 
 from .image_test_util import get_image_file
 from .jwt_auth_test_util import jwt_api_client
-from ..models import NewsItem, Project, Biog, Connect, HomeImage, Image, Release
+from ..models import NewsItem, Project, Biog, Connect, Image, Release
 from ..serializers import (
     BiographySerializer,
     ConnectSerializer,
-    HomeImageSerializer,
     ProjectSerializer,
     ReleaseSerializer,
     ImageGallerySerializer,
@@ -245,6 +244,61 @@ class BiogItemsTests(APITestCase):
             "Integer hendrerit, nisi eget facilisis rutrum, justo neque efficitur enim, eu tempor augue",
         )
 
+    def test_get_single_biog_item(self):
+
+        response = self.client.get(
+            reverse("biography-detail", kwargs={"pk": self.biog1.pk})
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["biography"], "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla bibendum tincidunt nisi ut")
+
+    def test_get_single_non_existent_item(self):
+        response = self.client.get(reverse("biography-detail", kwargs={"pk": 69}))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_update_single_biog_item(self):
+
+        payload = {
+            "biography": "this is an update to an existing biog",
+        }
+
+        response = self.client.put(
+            reverse("biography-detail", kwargs={"pk": self.biog1.pk}), data=payload
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["biography"], "this is an update to an existing biog")
+
+    def test_update_single_news_biog_no_auth(self):
+
+        payload = {
+            "biography": "this is an update to an existing biog which will fail",
+        }
+
+        response = self.non_auth_client.put(
+            reverse("biography-detail", kwargs={"pk": self.biog1.pk}), data=payload
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+## not testing partial biog update, because model currently only has one field.
+
+    def test_delete_single_biog_item(self):
+
+        response = self.client.delete(
+            reverse("biography-detail", kwargs={"pk": self.biog1.pk})
+        )
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        response2 = self.client.delete(
+            reverse("biography-detail", kwargs={"pk": self.biog1.pk})
+        )
+        self.assertEqual(response2.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_single_connect_item_no_auth(self):
+
+        response = self.non_auth_client.delete(
+            reverse("biography-detail", kwargs={"pk": self.biog2.pk})
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
     def test_post_new_biog_item(self):
 
         payload = {
@@ -415,67 +469,6 @@ class ConnectItemsTests(APITestCase):
 
         response = self.non_auth_client.post(reverse("news-items"), data=payload)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-
-
-class HomeImageItemsTests(APITestCase):
-    def setUp(self):
-        self.client = jwt_api_client()
-
-        self.non_auth_client = APIClient()
-
-        self.connect1 = HomeImage.objects.create(image=get_image_file())
-
-        self.connect2 = HomeImage.objects.create(
-            image=get_image_file(name="test2.png", ext="png", size=(40, 40))
-        )
-
-    def test_get_all_homeimage_items(self):
-
-        response = self.client.get(reverse("home-image"))
-        request = factory.get(reverse("home-image"))
-
-        homeimages = HomeImage.objects.all()
-        serializer = HomeImageSerializer(
-            homeimages, many=True, context={"request": Request(request)}
-        )
-
-        self.assertEqual(response.data, serializer.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_post_new_homeimage_item(self):
-
-        payload = {
-            "image": get_image_file(),
-        }
-
-        response = self.client.post(reverse("home-image"), data=payload)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
-    def test_post_new_homeimage_item_no_auth(self):
-
-        payload = {
-            "image": get_image_file(),
-        }
-
-        response = self.non_auth_client.post(reverse("home-image"), data=payload)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-
-    def test_get_latest_homeimage_endpoint(self):
-
-        response = self.client.get(reverse("latest-home-image"))
-        request = factory.get(reverse("latest-home-image"))
-
-        homeimages = HomeImage.objects.all()
-        homeimages = homeimages.latest("created_date")
-
-        serializer = HomeImageSerializer(
-            homeimages, context={"request": Request(request)}
-        )
-
-        self.assertEqual(response.data, serializer.data)
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertTrue(response.data["image"])
 
 
 class ProjectsItemsTests(APITestCase):

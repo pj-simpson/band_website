@@ -40,11 +40,6 @@ function Navigation({ loggerOuter, isLoggedIn }) {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink to="/biog" activeClassName="active" tag={RRNavLink}>
-                Biog
-              </NavLink>
-            </NavItem>
-            <NavItem>
               <NavLink to="/images" activeClassName="active" tag={RRNavLink}>
                 Images
               </NavLink>

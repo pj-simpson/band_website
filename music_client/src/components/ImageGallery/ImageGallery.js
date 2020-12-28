@@ -27,6 +27,7 @@ function Images({ isLoggedIn }) {
         <Spinner animation="grow" color="light"/>
       ) : (
         <Gallery photos={data} direction={"column"} />
+
       )}
     </div>
   );

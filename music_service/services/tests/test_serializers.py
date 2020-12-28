@@ -9,7 +9,6 @@ from ..serializers import (
     ReleaseSerializer,
     BiographySerializer,
     ConnectSerializer,
-    HomeImageSerializer,
     ImageGallerySerializer,
 )
 
@@ -186,29 +185,6 @@ class ConnectSerializerTests(APITestCase):
         self.assertEquals(serializer.data, self.invaliddata)
         self.assertEquals(serializer.errors.__len__(), 2)
 
-
-class HomeImageSerializerTests(APITestCase):
-    def setUp(self):
-
-        self.validdata = {"image": get_image_file()}
-
-        self.invaliddata = {"image": "blah blah blah"}
-
-    def test_valid_homeimage_item_serializer(self):
-        serializer = HomeImageSerializer(data=self.validdata)
-
-        self.assertTrue(serializer.is_valid())
-        self.assertEquals(serializer.errors, {})
-
-    def test_invalid_homeimage_item_serializer(self):
-        serializer = HomeImageSerializer(data=self.invaliddata)
-
-        self.assertFalse(serializer.is_valid())
-        self.assertEquals(serializer.validated_data, {})
-        self.assertEquals(serializer.data, self.invaliddata)
-        self.assertEquals(serializer.errors.__len__(), 1)
-
-
 class ImageGallerySerializerTests(APITestCase):
     def setUp(self):
 
@@ -216,12 +192,14 @@ class ImageGallerySerializerTests(APITestCase):
             "src": get_image_file(),
             "width": 1,
             "height": 1,
+            "credit":"blah blah blah"
         }
 
         self.invaliddata = {
             "src": get_image_file(),
             "width": "1.5",
             "height": "1",
+            "credit": "blah blah blah"
         }
 
     def test_valid_image_item_serializer(self):

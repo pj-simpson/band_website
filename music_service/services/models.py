@@ -69,13 +69,9 @@ class Connect(models.Model):
     category = models.CharField(choices=CONNECT_CATEGORY_CHOICES, max_length=255)
 
 
-class HomeImage(models.Model):
-    image = models.ImageField(upload_to="home_images/", blank=True)
-    created_date = models.DateTimeField(auto_now_add=True)
-
-
 class Image(models.Model):
     src = models.ImageField(upload_to="image_gallery_images/", blank=True)
+    credit = models.CharField(max_length=255,blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     width = models.IntegerField()
     height = models.IntegerField()

@@ -9,11 +9,10 @@ from .views import (
     ReleaseList,
     ConnectDetail,
     ConnectList,
-    HomeImageList,
-    LatestHomeImage,
     ImageGalleryDetail,
     ImageGalleryList,
-    BiogList,
+    BiographyList,
+    BiographyDetail,
     LatestBiog,
 )
 
@@ -26,10 +25,9 @@ urlpatterns = [
     path("releases/", ReleaseList.as_view(), name="releases"),
     path("connections/<int:pk>/", ConnectDetail.as_view(), name="connections-detail"),
     path("connections/", ConnectList.as_view(), name="connections"),
-    path("homeimage/", HomeImageList.as_view(), name="home-image"),
-    path("latesthomeimage/", LatestHomeImage.as_view(), name="latest-home-image"),
     path("images/<int:pk>/", ImageGalleryDetail.as_view(), name="image-gallery-detail"),
     path("images/", ImageGalleryList.as_view(), name="image-gallery"),
-    path("biog/", BiogList.as_view(), name="biographies"),
+    path("biog/", BiographyList.as_view(), name="biographies"),
+    path("biog/<int:pk>", BiographyDetail.as_view(), name="biography-detail"),
     path("latestbiog/", LatestBiog.as_view(), name="latest-biog"),
 ]
