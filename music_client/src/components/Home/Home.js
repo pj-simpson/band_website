@@ -24,7 +24,7 @@ function Home() {
       {isLoading ? (
         <Spinner animation="grow" color="light"/>
       ) : (
-        <div className="row justify-content-center">
+        <div className="row justify-content-center home-container">
             <Col xs="auto">
               {renderHTML(data.biography)}
           </Col>

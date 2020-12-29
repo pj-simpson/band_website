@@ -3,7 +3,7 @@ import { Spinner } from "reactstrap";
 
 import axios from "axios";
 import "../../App.css";
-
+import CustomImage from "./CustomImage";
 import Gallery from "react-photo-gallery";
 
 function Images({ isLoggedIn }) {

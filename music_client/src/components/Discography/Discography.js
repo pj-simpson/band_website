@@ -20,6 +20,7 @@ import {
   FaShoppingCart,
 } from "react-icons/fa";
 import Moment from "react-moment";
+import PressRelease from "./PressRelease";
 
 function Discography({ isLoggedIn }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -152,7 +153,10 @@ function Discography({ isLoggedIn }) {
                             </ul>
                           </div>
 
-                          <div className="press-release">{item.press_release}</div>
+                          <div className="press-release">
+                              <PressRelease item={item}/>
+                          </div>
+
                         </CardBody>
                         {isLoggedIn && (
                           <CardFooter style={{ backgroundColor: "black" }}>
