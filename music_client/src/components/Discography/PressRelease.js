@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import { Collapse } from 'reactstrap';
 
 const PressRelease = ({item}) => {
   const [isOpen, setIsOpen] = useState(false);

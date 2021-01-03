@@ -38,6 +38,7 @@
 
 .link-icons a {
   margin-right: 3px;
+margin-bottom: 1em;
 }
 
 main {
@@ -79,4 +80,12 @@ body {
 
 .press-release-toggle {
     font-size: 1.5em;
+    color: #63d0d4;
 }
+
+th {
+    color: #9197a3;
+}
+
+a:link { color: #63d0d4; }
+a:hover { color: #63d0d4 !important; }

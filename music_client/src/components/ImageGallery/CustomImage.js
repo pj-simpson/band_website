@@ -5,7 +5,7 @@ import React from "react";
 function CustomImage ({photo}) {
 
   return (
-        <img {...photo}/>
+        <img {...photo} alt=""/>
 
   );
 };

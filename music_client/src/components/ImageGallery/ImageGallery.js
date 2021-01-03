@@ -36,12 +36,13 @@ function Images({ isLoggedIn }) {
     getImages();
   }, [isLoading]);
 
-  const imageRenderer =
-    ({ photo }) => (
-      <CustomImage
-        photo={photo}
-      />
-    );
+  // const imageRenderer =
+  //   ({ photo }) => (
+  //     <CustomImage
+  //       photo={photo}
+  //     />
+  //   );
+  //   not currently using custom image
 
   return (
     <div>
