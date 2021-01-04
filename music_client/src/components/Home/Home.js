@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Col, Spinner} from "reactstrap";
 import renderHTML from "react-render-html";
-import home_image from './Home_Image.jpg';
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +28,7 @@ function Home() {
               {renderHTML(data.biography)}
           </Col>
           <Col xs="auto">
-              <img alt="ELS" src={home_image}/>
+              <img alt="ELS" src="https://peter-apps-bucket.s3.eu-west-2.amazonaws.com/media/home_images/IMG_2636.jpg"/>
           </Col>
         </div>
       )}
