@@ -88,7 +88,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-
+# react buildfiles
+/build
 
 
 # Package control specific files Package

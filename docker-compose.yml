@@ -16,21 +16,21 @@ services:
   client:
     build:
       context: ./music_client
-    command: npm start .env.production
+    command: npm start .env.local
     ports:
       - 3000:3000
-    stdin_open: true
     volumes:
       - ./music_client:/usr/src/app
+    depends_on:
+      - web
+    stdin_open: true
 
   db:
     image: postgres:12-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_USER=music_service
-      - POSTGRES_PASSWORD=music_service
-      - POSTGRES_DB=music_service
+    env_file:
+      - ./music_service/.env.dev
 
 volumes:
   postgres_data:
