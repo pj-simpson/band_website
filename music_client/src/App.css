@@ -90,3 +90,7 @@ th {
 a:link { color: #63d0d4; }
 a:visited { color: #63d0d4; }
 a:hover { color: #63d0d4 !important; }
+
+#mc_embed_signup {
+    background:#000000; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;
+}

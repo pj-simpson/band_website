@@ -170,9 +170,45 @@ function Connect({ isLoggedIn }) {
             </Table>
           </Col>
         </Row>
-      )}
+
+
+
+
+      ) }
+      <Row >
+            <Col md={{ span: 5, offset: 5 }}>
+                  <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css"/>
+
+                  <div id="mc_embed_signup">
+                      <form
+                          action="https://gmail.us7.list-manage.com/subscribe/post?u=e1d644a435f32ceeb7bc1c131&amp;id=265238e0cc"
+                          method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                          className="validate" target="_blank" noValidate>
+                          <div id="mc_embed_signup_scroll">
+                              <label htmlFor="mce-EMAIL">News Letter</label>
+                              <input type="email" value="" name="EMAIL" className="email" id="mce-EMAIL"
+                                     placeholder="email address" required></input>
+                          </div>
+                          <div style={{"position": "absolute", "left": "-5000px"}} aria-hidden="true">
+                              <input type="text" name="b_e1d644a435f32ceeb7bc1c131_265238e0cc" tabIndex="-1"
+                                     value=""></input>
+                          </div>
+
+                          <div className="clear">
+                              <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe"
+                                     className="button"></input>
+                          </div>
+                      </form>
+                  </div>
+
+              </Col>
+            </Row>
     </div>
+
+
+
   );
+
 }
 
 export default Connect;
