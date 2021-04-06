@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useCallback} from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Spinner } from "reactstrap";
 import Carousel, { Modal, ModalGateway } from "react-images";
-
 
 import axios from "axios";
 import "../../App.css";
@@ -47,24 +46,24 @@ function Images({ isLoggedIn }) {
   return (
     <div>
       {isLoading ? (
-        <Spinner animation="grow" color="light"/>
+        <Spinner animation="grow" color="light" />
       ) : (
-        <Gallery photos={data} direction={"column"} onClick={openLightbox}/>
+        <Gallery photos={data} direction={"column"} onClick={openLightbox} />
       )}
-            <ModalGateway>
-                {viewerIsOpen ? (
-                  <Modal onClose={closeLightbox}>
-                    <Carousel
-                      currentIndex={currentImage}
-                      views={data.map(item => ({
-                        ...item,
-                        srcset: item.src,
-                        caption: item.credit
-                      }))}
-                    />
-                  </Modal>
-                ) : null}
-            </ModalGateway>
+      <ModalGateway>
+        {viewerIsOpen ? (
+          <Modal onClose={closeLightbox}>
+            <Carousel
+              currentIndex={currentImage}
+              views={data.map((item) => ({
+                ...item,
+                srcset: item.src,
+                caption: item.credit,
+              }))}
+            />
+          </Modal>
+        ) : null}
+      </ModalGateway>
     </div>
   );
 }

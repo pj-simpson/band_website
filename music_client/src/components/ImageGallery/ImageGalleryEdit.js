@@ -82,7 +82,7 @@ function ImageGalleryEdit({ isLoggedIn }) {
   return (
     <div>
       {isLoading ? (
-        <Spinner animation="grow" color="light"/>
+        <Spinner animation="grow" color="light" />
       ) : (
         <Col>
           <Table>
@@ -106,7 +106,7 @@ function ImageGalleryEdit({ isLoggedIn }) {
                     </Col>
                   </td>
 
-                    <td>
+                  <td>
                     <ContentEditable
                       html={item.title.toString()}
                       onChange={handleChange}

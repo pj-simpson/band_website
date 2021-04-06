@@ -90,7 +90,12 @@ function ReleaseUpdate() {
 
           <div className="form-group">
             <label>Format:</label>
-            <select multiple ref={register} name="format" className="form-control">
+            <select
+              multiple
+              ref={register}
+              name="format"
+              className="form-control"
+            >
               <option value="DL">DL</option>
               <option value="LP">LP</option>
               <option value="CS">CS</option>

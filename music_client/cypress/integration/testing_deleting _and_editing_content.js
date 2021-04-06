@@ -35,8 +35,6 @@ describe("Testing the navbars", function () {
         cy.get('div[class="news-card"]')
           .first()
           .then(($newNewsDiv, deletedDiv = newsDivId) => {
-
-
             const secondNewsDiv = $newNewsDiv.get(0).id;
 
             expect(secondNewsDiv).to.not.eq(deletedDiv);
@@ -53,7 +51,7 @@ describe("Testing the navbars", function () {
 
     //Delete Release
 
-      cy.get('div[class="news-card"]')
+    cy.get('div[class="news-card"]')
       .first()
       .then(($releaseDiv) => {
         const releaseDivID = $releaseDiv.get(0).id;
@@ -65,8 +63,6 @@ describe("Testing the navbars", function () {
         cy.get('div[class="news-card"]')
           .first()
           .then(($newReleaseDiv, deletedDiv = releaseDivID) => {
-
-
             const secondReleaseDiv = $newReleaseDiv.get(0).id;
 
             expect(secondReleaseDiv).to.not.eq(deletedDiv);
@@ -76,7 +72,7 @@ describe("Testing the navbars", function () {
     //Delete Connect Link
 
     cy.visit("/connect");
-    cy.get('tbody > tr')
+    cy.get("tbody > tr")
       .first()
       .then(($tableRow) => {
         const tableRowId = $tableRow.get(0).id;
@@ -85,11 +81,9 @@ describe("Testing the navbars", function () {
           .contains("x")
           .click();
 
-        cy.get('tbody > tr')
+        cy.get("tbody > tr")
           .first()
           .then(($newTableRow, deletedTableRow = tableRowId) => {
-
-
             const secondTableRow = $newTableRow.get(0).id;
 
             expect(secondTableRow).to.not.eq(deletedTableRow);

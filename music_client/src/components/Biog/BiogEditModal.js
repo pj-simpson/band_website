@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import {BiogEditForm} from "./BiogEditForm";
+import { BiogEditForm } from "./BiogEditForm";
 
 function BiogEditModal({ item, updater }) {
   const [modal, setModal] = useState(false);

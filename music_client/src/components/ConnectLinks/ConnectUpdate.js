@@ -58,7 +58,12 @@ function ConnectUpdate() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group">
             <label>Link:</label>
-            <input type="url" ref={register} name="link" className="form-control" />
+            <input
+              type="url"
+              ref={register}
+              name="link"
+              className="form-control"
+            />
           </div>
 
           <div className="form-group">

@@ -1,5 +1,3 @@
-
-
 .news-image {
   height: auto !important;
   max-width: 100% !important;
@@ -38,13 +36,13 @@
 
 .link-icons a {
   margin-right: 3px;
-margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 main {
   background-color: black;
   color: white;
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 .connect-table-row {
@@ -61,36 +59,58 @@ body {
 }
 
 .home-container {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
 .navbar {
-        margin-bottom: 1em;
-
+  margin-bottom: 1em;
 }
 
 .biog-edit-card {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 .press-release-toggle-container {
-    text-align: right;
-    margin-bottom: 1em;
+  text-align: right;
+  margin-bottom: 1em;
 }
 
 .press-release-toggle {
-    font-size: 1.5em;
-    color: #63d0d4;
+  font-size: 1.5em;
+  color: #63d0d4;
 }
 
 th {
-    color: #9197a3;
+  color: #9197a3;
 }
 
-a:link { color: #63d0d4; }
-a:visited { color: #63d0d4; }
-a:hover { color: #63d0d4 !important; }
+a:link {
+  color: #63d0d4;
+}
+a:visited {
+  color: #63d0d4;
+}
+a:hover {
+  color: #63d0d4 !important;
+}
 
 #mc_embed_signup {
-    background:#000000; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;
+  background: #000000;
+  clear: left;
+  font: 14px Helvetica, Arial, sans-serif;
+  width: 100%;
+}
+
+.soundcloud-frame-inner {
+  font-size: 10px;
+  color: #cccccc;
+  line-break: anywhere;
+  word-break: normal;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: Interstate, Lucida Grande, Lucida Sans Unicode, Lucida Sans,
+    Garuda, Verdana, Tahoma, sans-serif;
+  font-weight: 100;
+  text-align: center;
 }

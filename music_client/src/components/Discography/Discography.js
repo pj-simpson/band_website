@@ -81,7 +81,7 @@ function Discography({ isLoggedIn }) {
   return (
     <div>
       {isLoading ? (
-        <Spinner animation="grow" color="light"/>
+        <Spinner animation="grow" color="light" />
       ) : (
         Object.keys(rows).map((row) => {
           return (
@@ -92,7 +92,7 @@ function Discography({ isLoggedIn }) {
                 })
                 .map((item) => (
                   <Col key={item.id}>
-                    <div className="news-card"  id={item.id}>
+                    <div className="news-card" id={item.id}>
                       <Card
                         className="news-card"
                         body
@@ -154,9 +154,8 @@ function Discography({ isLoggedIn }) {
                           </div>
 
                           <div className="press-release">
-                              <PressRelease item={item}/>
+                            <PressRelease item={item} />
                           </div>
-
                         </CardBody>
                         {isLoggedIn && (
                           <CardFooter style={{ backgroundColor: "black" }}>

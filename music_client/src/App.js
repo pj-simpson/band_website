@@ -18,7 +18,8 @@ import Images from "./components/ImageGallery/ImageGallery";
 import ImageGalleryUpdate from "./components/ImageGallery/ImageGalleryUpdate";
 import ImageGalleryEdit from "./components/ImageGallery/ImageGalleryEdit";
 import BiogEditor from "./components/Biog/BiogEditor";
-import { BiogUpdate } from "./components/Biog/BiogUpdate"
+import { BiogUpdate } from "./components/Biog/BiogUpdate";
+import Biog from "./components/Biog/Biog";
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(() => {
@@ -59,6 +60,10 @@ function App() {
             <Route
               path="/images"
               render={(props) => <Images {...props} isLoggedIn={isLoggedIn} />}
+            />
+            <Route
+              path="/biog"
+              render={(props) => <Biog {...props} isLoggedIn={isLoggedIn} />}
             />
             <Route
               path="/newsupdate"

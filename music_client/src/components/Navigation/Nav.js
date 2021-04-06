@@ -45,9 +45,22 @@ function Navigation({ loggerOuter, isLoggedIn }) {
               </NavLink>
             </NavItem>
             <NavItem>
+              <NavLink to="/biog" activeClassName="active" tag={RRNavLink}>
+                Biog
+              </NavLink>
+            </NavItem>
+            <NavItem>
               <NavLink to="/connect" activeClassName="active" tag={RRNavLink}>
                 Connect
               </NavLink>
+            </NavItem>
+            <NavItem>
+              <a
+                class="nav-link"
+                href="https://gmail.us7.list-manage.com/subscribe?u=e1d644a435f32ceeb7bc1c131&id=265238e0cc"
+              >
+                Newsletter
+              </a>
             </NavItem>
           </Nav>
           {isLoggedIn && (

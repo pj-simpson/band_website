@@ -41,7 +41,7 @@ function Connect({ isLoggedIn }) {
   return (
     <div>
       {isLoading ? (
-        <Spinner animation="grow" color="light"/>
+        <Spinner animation="grow" color="light" />
       ) : (
         <Row sm="4" className="justify-content-around connect-table-row">
           <Col>
@@ -58,16 +58,16 @@ function Connect({ isLoggedIn }) {
                     <tr key={item.id} id={item.id}>
                       <td>
                         <a href={item.link}>{item.link_title}</a>
-                          {isLoggedIn && (
-                        <Button
-                          color="danger"
-                          className="item-button"
-                          onClick={() => onDelete(item)}
-                          size="sm"
-                        >
-                          x
-                        </Button>
-                      )}
+                        {isLoggedIn && (
+                          <Button
+                            color="danger"
+                            className="item-button"
+                            onClick={() => onDelete(item)}
+                            size="sm"
+                          >
+                            x
+                          </Button>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -89,18 +89,17 @@ function Connect({ isLoggedIn }) {
                     <tr key={item.id} id={item.id}>
                       <td>
                         <a href={item.link}>{item.link_title}</a>
-                          {isLoggedIn && (
-                        <Button
-                          color="danger"
-                          className="item-button"
-                          onClick={() => onDelete(item)}
-                          size="sm"
-                        >
-                          x
-                        </Button>
-                      )}
+                        {isLoggedIn && (
+                          <Button
+                            color="danger"
+                            className="item-button"
+                            onClick={() => onDelete(item)}
+                            size="sm"
+                          >
+                            x
+                          </Button>
+                        )}
                       </td>
-
                     </tr>
                   ))}
               </tbody>
@@ -121,18 +120,17 @@ function Connect({ isLoggedIn }) {
                     <tr key={item.id} id={item.id}>
                       <td>
                         <a href={item.link}>{item.link_title}</a>
-                          {isLoggedIn && (
-                        <Button
-                          color="danger"
-                          className="item-button"
-                          onClick={() => onDelete(item)}
-                          size="sm"
-                        >
-                          x
-                        </Button>
-                      )}
+                        {isLoggedIn && (
+                          <Button
+                            color="danger"
+                            className="item-button"
+                            onClick={() => onDelete(item)}
+                            size="sm"
+                          >
+                            x
+                          </Button>
+                        )}
                       </td>
-
                     </tr>
                   ))}
               </tbody>
@@ -170,45 +168,9 @@ function Connect({ isLoggedIn }) {
             </Table>
           </Col>
         </Row>
-
-
-
-
-      ) }
-      <Row >
-            <Col md={{ span: 5, offset: 5 }}>
-                  <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css"/>
-
-                  <div id="mc_embed_signup">
-                      <form
-                          action="https://gmail.us7.list-manage.com/subscribe/post?u=e1d644a435f32ceeb7bc1c131&amp;id=265238e0cc"
-                          method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-                          className="validate" target="_blank" noValidate>
-                          <div id="mc_embed_signup_scroll">
-                              <label htmlFor="mce-EMAIL">News Letter</label>
-                              <input type="email" value="" name="EMAIL" className="email" id="mce-EMAIL"
-                                     placeholder="email address" required></input>
-                          </div>
-                          <div style={{"position": "absolute", "left": "-5000px"}} aria-hidden="true">
-                              <input type="text" name="b_e1d644a435f32ceeb7bc1c131_265238e0cc" tabIndex="-1"
-                                     value=""></input>
-                          </div>
-
-                          <div className="clear">
-                              <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe"
-                                     className="button"></input>
-                          </div>
-                      </form>
-                  </div>
-
-              </Col>
-            </Row>
+      )}
     </div>
-
-
-
   );
-
 }
 
 export default Connect;

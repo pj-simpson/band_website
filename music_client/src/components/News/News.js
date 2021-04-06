@@ -87,17 +87,9 @@ export class News extends React.Component {
           >
             {this.state.items.length > 0
               ? this.state.items.map((item) => (
-                  <div
-                    className="news-card"
-                    key={item.id}
-                    id={item.id}
-                  >
+                  <div className="news-card" key={item.id} id={item.id}>
                     <Moment format="DD/MM/YYYY">{item.created_date}</Moment>
-                    <Card
-                      body
-                      inverse
-                      style={{ backgroundColor: "black" }}
-                    >
+                    <Card body inverse style={{ backgroundColor: "black" }}>
                       <CardImg className="news-image" src={item.image} />
                       <CardBody>
                         <CardTitle style={{ backgroundColor: "black" }}>
@@ -134,9 +126,7 @@ export class News extends React.Component {
               : null}
           </InfiniteScroll>
 
-          {this.state.isLoading && (
-            <Spinner animation="grow" color="light"/>
-          )}
+          {this.state.isLoading && <Spinner animation="grow" color="light" />}
         </Col>
       </div>
     );
