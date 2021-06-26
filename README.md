@@ -1,5 +1,7 @@
 ## SOA Music Artist Portfolio
 A React front-end and Django REST backend with an opinionated structure for a musical artist's portfolio/CMS site. 
+[Blog post about this project](https://petersimpson.dev/blog/portfolio-project-soa-music-artist-portfolio/)
+
 
 ## Motivation
 I wanted to learn how to build an application which was a 'component' based Javascript front-end consuming a REST API backend, as this seems to have become THE dominant style in python web development over the last few years.
