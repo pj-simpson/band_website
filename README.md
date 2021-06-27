@@ -1,6 +1,7 @@
 ## SOA Music Artist Portfolio
 A React front-end and Django REST backend with an opinionated structure for a musical artist's portfolio/CMS site. 
-[Blog post about this project](https://petersimpson.dev/blog/portfolio-project-soa-music-artist-portfolio/)
+- [Blog post about this project](https://petersimpson.dev/blog/portfolio-project-soa-music-artist-portfolio/)
+- [Live](https://elsmusic.site/)
 
 
 ## Motivation
